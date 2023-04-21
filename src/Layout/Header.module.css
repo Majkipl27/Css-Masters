@@ -1,0 +1,13 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 8rem;
+    border-bottom: 1px solid var(--add2-clr);
+}
+
+.header > p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--add3-clr);
+}
