@@ -1,21 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 
 :root {
-  --bg-clr: #F6F1E9;
+  --bg-clr: #333333;
   --add1-clr: #FFD93D;
   --add2-clr: #FF8400;
-  --add3-clr: #4F200D;
+  --add3-clr: #D3A795;
 }
 
 body {
   margin: 0;
   background-color: var(--bg-clr);
   font-family: 'Quicksand', sans-serif;
-}
-
-.layout-frame {
-  display: flex;
-  flex-direction: column;
 }
 
 p {

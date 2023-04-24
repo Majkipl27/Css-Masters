@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profile from "./Sites/Profile/Profile";
-import Frame from "./Layout/Frame";
+import Header from "./Layout/Header";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Frame />,
+    element: <Header />,
     children: [
       {
         path: "/profile",
