@@ -1,0 +1,101 @@
+.main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8rem;
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(62, 62, 62, 0.72) 0%,
+    rgba(40, 40, 40, 0.9) 41.67%
+  );
+}
+
+.return {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  color: var(--font-alt);
+  font-weight: 400;
+  cursor: pointer;
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  text-decoration: none;
+}
+
+.return:hover {
+  text-decoration: underline;
+}
+
+.registerSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  min-width: 20%;
+  width: fit-content;
+}
+
+.registerSide > button {
+  width: 100%;
+}
+
+.registerSide h2 {
+  font-size: 2.5rem;
+  color: var(--font-clr);
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.registerSide p,
+.registerSide label {
+  font-size: 1.125rem;
+  color: var(--font-alt);
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.registerSide a {
+  color: var(--font-alt);
+}
+
+.registerSide a:hover {
+  text-decoration: none;
+}
+
+.main img {
+  rotate: 180deg;
+}
+
+.checkboxFlex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.checkboxFlex input {
+  width: 1.5rem;
+  height: 1.5rem;
+  appearance: none;
+  border: 0.125rem solid var(--font-alt);
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.checkboxFlex label {
+  cursor: pointer;
+}
+
+.checkboxFlex input:checked {
+  border-color: #b6963f;
+  background-color: #e9c04f;
+}

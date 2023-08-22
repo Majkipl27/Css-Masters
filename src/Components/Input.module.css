@@ -1,0 +1,26 @@
+.input {
+  display: flex;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.5rem;
+  border: 0.25rem solid #495057;
+  background: transparent;
+  font-size: 1.5rem;
+  color: var(--font-alt);
+  appearance: none;
+  font-family: "Roboto Slab", serif;
+  box-sizing: border-box;
+}
+
+.input:active,
+.input:focus {
+  outline: none;
+}
+
+::placeholder {
+  color: var(--font-alt);
+  opacity: 0.6;
+  text-transform: uppercase;
+}

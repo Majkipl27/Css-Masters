@@ -1,8 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Header from "./Layout/Header";
 import LandingPage from "./Sites/LandingPage/LandingPage";
+import Login from "./Sites/Auth/Login/Login";
+import Register from "./Sites/Auth/Register/Register";
 
 const router = createBrowserRouter([
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
   {
     path: "/",
     element: <Header />,
@@ -25,14 +29,13 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: "*", element: <h1>404</h1> },
 ]);
 
-function App() {
+export default function App() {
   return (
     <>
       <RouterProvider router={router} />
     </>
   );
 }
-
-export default App;
