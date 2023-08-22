@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Profile from "./Sites/Profile/Profile";
 import Header from "./Layout/Header";
+import LandingPage from "./Sites/LandingPage/LandingPage";
 
 const router = createBrowserRouter([
   {
@@ -8,8 +8,20 @@ const router = createBrowserRouter([
     element: <Header />,
     children: [
       {
-        path: "/profile",
-        element: <Profile />,
+        path: "/",
+        element: <LandingPage />,
+      },
+      {
+        path: "/play",
+        element: <h1>play</h1>,
+      },
+      {
+        path: "/leaderboards",
+        element: <h1>leaderboards</h1>,
+      },
+      {
+        path: "/login",
+        element: <h1>login</h1>,
       },
     ],
   },

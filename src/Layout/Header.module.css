@@ -1,13 +1,50 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 8rem;
-    border-bottom: 1px solid var(--add2-clr);
+  background-color: var(--bg-clr);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 4rem;
+  border-bottom: 0.125rem solid var(--dark-clr);
 }
 
-.header > p {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--add3-clr);
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.logoSection > img {
+  height: 3rem;
+}
+
+.logoSection > a {
+  text-decoration: none;
+}
+
+.logoSection > a > h2 {
+  font-size: 2rem;
+  color: var(--font-clr);
+  font-family: "Quantico", sans-serif;
+  font-weight: 400;
+  text-shadow: 0px 2px 0px rgba(173, 181, 189, 0.4);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.nav > a:not(:last-of-type) {
+  color: var(--font-alt);
+  font-family: Roboto Slab;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.active {
+  color: var(--font-clr) !important;
 }

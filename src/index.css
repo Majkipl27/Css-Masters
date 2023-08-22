@@ -1,19 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
-
-:root {
-  --bg-clr: #333333;
-  --add1-clr: #FFD93D;
-  --add2-clr: #FF8400;
-  --add3-clr: #D3A795;
-}
+@import url('https://fonts.googleapis.com/css2?family=Quantico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 
 body {
   margin: 0;
+  font-family: 'Roboto Slab', serif;
   background-color: var(--bg-clr);
-  font-family: 'Quicksand', sans-serif;
 }
 
-p {
-  margin-block-start: 0;
-  margin-block-end: 0;
+body, html, #root {
+  height: 100%;
+}
+
+:root {
+  --bg-clr: #212121;
+  --bg-lght: #2828285a;
+  --font-clr: #F8F9FA;
+  --font-alt: #ADB5BD;
+  --dark-clr: #343A40;
+  --add-blue: #24AFC1;
+  --main-grad: linear-gradient(135deg, rgba(62, 62, 62, 0.90) 0%, rgba(40, 40, 40, 1) 57.29%);
+}
+
+h1, h2, p {
+  margin-block: 0;
 }

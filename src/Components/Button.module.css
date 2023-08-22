@@ -1,0 +1,28 @@
+.button, .alt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem 2rem;
+    appearance: none;
+    border-radius: .25rem;
+    font-family: 'Roboto Slab', serif;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.button {
+    background-color: #CED4DA;
+    border: 2px solid var(--font-alt);
+    color: var(--bg-clr);
+}
+
+.alt {
+    border: 2px solid var(--font-alt);
+    color: var(--font-alt);
+    background-color: transparent;
+}
+
+.button:hover, .alt:hover {
+    text-decoration: underline;
+}
