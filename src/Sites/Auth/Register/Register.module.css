@@ -96,6 +96,5 @@
 }
 
 .checkboxFlex input:checked {
-  border-color: #b6963f;
-  background-color: #e9c04f;
+  background-color: var(--font-alt);
 }

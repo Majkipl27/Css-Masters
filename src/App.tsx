@@ -3,6 +3,7 @@ import Header from "./Layout/Header";
 import LandingPage from "./Sites/LandingPage/LandingPage";
 import Login from "./Sites/Auth/Login/Login";
 import Register from "./Sites/Auth/Register/Register";
+import ToasterComponent from "./Components/Toaster";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <>
+      <ToasterComponent />
       <RouterProvider router={router} />
     </>
   );

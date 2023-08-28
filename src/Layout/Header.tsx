@@ -2,8 +2,12 @@ import { Link, Outlet, NavLink } from "react-router-dom";
 import Logo from "../Graphics/Logo.svg";
 import classes from "./Header.module.css";
 import Button from "../Components/Button";
+import { useAtomValue } from "jotai/react";
+import { userAtom } from "../Atoms";
 
 export default function Header() {
+  const user = useAtomValue(userAtom);
+
   return (
     <>
       <header className={classes.header}>
@@ -29,7 +33,7 @@ export default function Header() {
           >
             Leaderboards
           </NavLink>
-          <Button type="default" isLink={true} to="/login">Login</Button>
+          {user.username ? <p>{user.username}</p> : <Button type="default" isLink={true} to="/login">Login</Button>}
         </nav>
       </header>
       <Outlet />
