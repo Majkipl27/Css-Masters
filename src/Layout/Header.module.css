@@ -48,3 +48,23 @@
 .active {
   color: var(--font-clr) !important;
 }
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--font-alt);
+  font-family: Roboto Slab;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.logout {
+  color: var(--font-alt);
+  font-family: Roboto Slab;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
