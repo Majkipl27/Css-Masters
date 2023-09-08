@@ -1,0 +1,171 @@
+.main {
+  width: 100%;
+  height: calc(100% - 86px);
+  background-color: var(--bg-lght);
+}
+
+.avatarSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: linear-gradient(
+    92deg,
+    rgba(36, 175, 193, 0.37) 0%,
+    rgba(156, 156, 156, 0.37) 50%,
+    rgba(238, 152, 59, 0.37) 100%
+  );
+  padding: 2rem 0;
+  color: var(--font-clr);
+  height: 40%;
+}
+
+.avatarSection > svg {
+  width: 15rem;
+  height: 15rem;
+}
+
+.mainRow {
+  display: flex;
+  align-items: center;
+  height: 50%;
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 2rem;
+  gap: 1rem;
+  color: var(--font-alt);
+}
+
+.left p {
+  font-size: 1.25rem;
+}
+
+.left p:first-of-type {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.line {
+  width: 0.25rem;
+  height: 90%;
+  background-color: #495057;
+  border-radius: 0.5rem;
+}
+
+.lineHorizontal {
+  width: 100%;
+  height: 0.25rem;
+  background-color: #495057;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: -1rem;
+  left: 0;
+}
+
+.socials {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  position: relative;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.5rem;
+}
+
+.social svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.social a {
+  color: var(--font-alt);
+  text-decoration: none;
+}
+
+.social a:hover {
+  text-decoration: underline;
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.badge {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--font-alt);
+}
+
+.badgesSection > p {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.statisticsSection {
+  display: flex;
+  justify-content: space-around;
+}
+
+.statistic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.statistic > p {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.tagsSection > p {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.tags {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: .5rem 0;
+}
+
+.tag {
+  padding: 0.25rem 2rem;
+  border-radius: 1.25rem;
+  border: 0.25rem solid var(--font-alt);
+  color: var(--font-alt);
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  margin-right: 1rem;
+  width: fit-content;
+  box-shadow: 0px 2px 0px #ADB5BD5a;
+}
+
+.lastActive {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}

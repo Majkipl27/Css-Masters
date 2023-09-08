@@ -4,6 +4,7 @@ import LandingPage from "./Sites/LandingPage/LandingPage";
 import Login from "./Sites/Auth/Login/Login";
 import Register from "./Sites/Auth/Register/Register";
 import ToasterComponent from "./Components/Toaster";
+import Profile from "./Sites/Profile/Profile";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
@@ -25,8 +26,8 @@ const router = createBrowserRouter([
         element: <h1>leaderboards</h1>,
       },
       {
-        path: "/login",
-        element: <h1>login</h1>,
+        path: "/profile/:id",
+        element: <Profile />,
       },
     ],
   },
