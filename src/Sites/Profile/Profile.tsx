@@ -1,46 +1,155 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import classes from "./Profile.module.css";
-import { PersonCircle, Link45deg } from "react-bootstrap-icons";
+import { Link45deg, Github, Instagram, Twitter, GearFill } from "react-bootstrap-icons";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Avatar from "../../Components/Avatar";
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../Atoms";
+
+interface userData {
+  id: number;
+  joinedAt: Date;
+  email: string;
+  username: string;
+  isVerified: boolean;
+  isBanned: boolean;
+  avatar: Blob;
+  banner: Blob;
+  instagram?: string;
+  website?: string;
+  github?: string;
+  x?: string;
+  description?: string;
+  name?: string;
+  lastname?: string;
+}
 
 export default function Profile() {
   const id = useParams<{ id: string }>().id;
+  const [userData, setUserData] = useState<userData>();
+  const [bannerUrl, setBannerUrl] = useState<string>("");
+  const navigate = useNavigate();
+  const user = useAtomValue(userAtom);
+
+  useEffect(() => {
+    async function getPublicInfo() {
+      try {
+        await fetch(`${process.env.REACT_APP_API_URL}/user/${id}`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.statusCode >= 400) {
+              navigate("/404");
+            } else {
+              setUserData(data);
+            }
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    const getBannerUrl = async (): Promise<void> => {
+      fetch(`${process.env.REACT_APP_API_URL}/user/settings/banner/${id}`, {
+        credentials: "include",
+        method: "GET",
+      })
+        .then((res: Response) => {
+          if (!res.ok || res.status === 204) throw new Error();
+          return res.blob();
+        })
+        .then((blob) => setBannerUrl(URL.createObjectURL(blob)))
+        .catch(() => setBannerUrl(""));
+    };
+
+    getPublicInfo();
+    getBannerUrl();
+  }, [id, navigate]);
+
+  let userNamingInfo = "";
+  if (userData?.name || userData?.lastname) {
+    userNamingInfo = `| ${userData?.name || ""} ${userData?.lastname || ""}`;
+  }
 
   return (
     <div className={classes.main}>
-      <div className={classes.avatarSection}>
-        <PersonCircle />
-        <h2>[Username] | [Name] [Surname]</h2>
+      <div
+        className={classes.avatarSection}
+        style={
+          bannerUrl
+            ? {
+                background: `linear-gradient(92deg, rgba(66, 66, 66, 0.60) 0%, rgba(66, 66, 66, 0.60) 100%), url('${bannerUrl}') no-repeat center center`,
+              }
+            : {}
+        }
+      >
+        <Avatar userId={+(id || -1)} className={classes.avatar} />
+        <h2>
+          {userData?.username} {userNamingInfo}
+        </h2>
         <p>Followers: [21] | Following: [37]</p>
+        {user.id === +(id || 0) && <Link to={`/profile/settings`} className={classes.cog}><GearFill /></Link>}
       </div>
       <div className={classes.mainRow}>
         <div className={classes.left}>
           <div>
-            <p>About [Username]</p>
+            <p>About {userData?.username}</p>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod
-              commodi officia libero veritatis at, minima voluptate iure quaerat
-              amet, adipisci magni. Tenetur vero dignissimos animi facere omnis.
-              Culpa quidem perspiciatis dolores? Quo, dolorum quos? Non fuga
-              quos consequatur molestiae saepe, ea, pariatur aut quae corrupti
-              minima vel consectetur fugit odio blanditiis! Eligendi, blanditiis
-              delectus, facere odit repudiandae molestiae a at quia repellendus
-              laudantium saepe asperiores, atque consequuntur. Praesentium
-              recusandae iure officia id, quis eum quod, velit debitis corporis
-              laudantium iusto?
+              {userData?.description || "This user has no description yet."}
             </p>
           </div>
-          <div className={classes.socials}>
-            <div className={classes.lineHorizontal} />
-            {/*
-              TODO: Make socials mapping when backend will be ready
-            */}
-            <div className={classes.social}>
-              <Link45deg />
-              <a href="https://tmamala.pl" target="_blank">
-                tmamala.pl
-              </a>
+          {(userData?.instagram ||
+            userData?.github ||
+            userData?.website ||
+            userData?.x) && (
+            <div className={classes.socials}>
+              <div className={classes.lineHorizontal} />
+              {userData?.website && (
+                <div className={classes.social}>
+                  <Link45deg />
+                  <a href={`http://${userData.website}`} target="_blank">
+                    {userData.website}
+                  </a>
+                </div>
+              )}
+              {userData?.github && (
+                <div className={classes.social}>
+                  <Github />
+                  <a
+                    href={`https://github.com/${userData.github}`}
+                    target="_blank"
+                  >
+                    {userData.github}
+                  </a>
+                </div>
+              )}
+              {userData?.instagram && (
+                <div className={classes.social}>
+                  <Instagram />
+                  <a
+                    href={`https://www.instagram.com/${userData.instagram}`}
+                    target="_blank"
+                  >
+                    {userData.instagram}
+                  </a>
+                </div>
+              )}
+              {userData?.x && (
+                <div className={classes.social}>
+                  <Twitter />
+                  <a href={`https://www.x.com/${userData.x}`} target="_blank">
+                    {userData.x}
+                  </a>
+                </div>
+              )}
             </div>
-          </div>
+          )}
         </div>
         <div className={classes.line} />
         <div className={classes.right}>

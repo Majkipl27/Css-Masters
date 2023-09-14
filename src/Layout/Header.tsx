@@ -4,11 +4,12 @@ import classes from "./Header.module.css";
 import Button from "../Components/Button";
 import { useAtom } from "jotai/react";
 import { userAtom } from "../Atoms";
-import { PersonCircle, DoorOpenFill } from "react-bootstrap-icons";
+import { DoorOpenFill } from "react-bootstrap-icons";
 import { toast } from "react-hot-toast";
 import { useEffect } from "react";
 import getUserObject from "../lib/getUser";
 import SearchBar from "../Components/SearchBar";
+import Avatar from "../Components/Avatar";
 
 export default function Header() {
   const [user, setUser] = useAtom(userAtom);
@@ -58,8 +59,15 @@ export default function Header() {
           </NavLink>
           {user.username ? (
             <>
-              <NavLink to={`/profile/${user.id}`} className={classes.profile}>
-                <PersonCircle />
+              <NavLink
+                to={`/profile/${user.id}`}
+                className={({ isActive }) =>
+                  isActive
+                    ? `${classes.profile} ${classes.active}`
+                    : classes.profile
+                }
+              >
+                <Avatar userId={user.id} />
                 <p>{user.username}</p>
               </NavLink>
               <DoorOpenFill

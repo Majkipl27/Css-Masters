@@ -49,14 +49,26 @@
   color: var(--font-alt);
   padding: .5rem;
   box-sizing: border-box;
+  z-index: 1000;
 }
 
-.searchResult > a {
+.searchResult {
   color: var(--font-alt) !important;
   text-decoration: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
-.searchResult > a:hover {
+.searchResult:hover {
   text-decoration: underline;
+}
+
+.searchResult > img {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: .5rem;
+  border: .125rem solid var(--font-alt);
+  border-radius: 50%;
+  background-color: var(--font-alt);
 }

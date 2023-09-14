@@ -18,6 +18,7 @@ export default forwardRef(function Input({type, placeholder, className, value, o
         placeholder={placeholder}
         defaultValue={value}
         onChange={onChange}
+        title={placeholder}
       />
     );
 });

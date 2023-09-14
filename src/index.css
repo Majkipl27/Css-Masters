@@ -21,6 +21,6 @@ body, html, #root {
   --main-grad: linear-gradient(135deg, rgba(62, 62, 62, 0.90) 0%, rgba(40, 40, 40, 1) 57.29%);
 }
 
-h1, h2, p {
+h1, h2, p, h3 {
   margin-block: 0;
 }

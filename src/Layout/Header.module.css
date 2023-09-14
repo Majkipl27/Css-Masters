@@ -60,6 +60,14 @@
   text-decoration: none;
 }
 
+.profile img {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: .125rem solid var(--font-alt);
+  border-radius: 50%;
+  background-color: var(--font-alt);
+}
+
 .logout {
   color: var(--font-alt);
   font-family: Roboto Slab;

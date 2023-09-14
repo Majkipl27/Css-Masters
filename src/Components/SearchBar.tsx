@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import classes from "./SearchBar.module.css";
 import { Search } from "react-bootstrap-icons";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import Avatar from "./Avatar";
 
 interface result {
   id: number;
@@ -15,6 +16,8 @@ export default function SearchBar() {
   const [isUserSearching, setIsUserSearching] = useState<boolean>(false);
   const [results, setResults] = useState<Array<result>>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  detectOnAbortingSearch(wrapperRef);
 
   const fetchResults = async () => {
     if (searchInputRef.current?.value === "") {
@@ -38,11 +41,22 @@ export default function SearchBar() {
       .catch((error) => toast.error(error.message));
   };
 
+  function detectOnAbortingSearch(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: Event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setIsUserSearching(false);
+        }
+      }
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
   return (
-    <div
-      className={classes.searchBar}
-      onMouseLeave={() => setIsUserSearching(false)}
-    >
+    <div className={classes.searchBar} ref={wrapperRef}>
       <input
         type="text"
         placeholder="Search"
@@ -54,9 +68,14 @@ export default function SearchBar() {
       {isUserSearching && results.length > 0 && (
         <div className={classes.searchResults}>
           {results.map((result) => (
-            <div key={result.id} className={classes.searchResult}>
-              <Link to={`/profile/${result.id}`}>{result.username}</Link>
-            </div>
+            <Link
+              to={`/profile/${result.id}`}
+              key={result.id}
+              className={classes.searchResult}
+            >
+              <Avatar userId={result.id} />
+              {result.username}
+            </Link>
           ))}
         </div>
       )}
