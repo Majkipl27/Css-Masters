@@ -1,9 +1,15 @@
 import { Link, useParams } from "react-router-dom";
 import classes from "./Profile.module.css";
-import { Link45deg, Github, Instagram, Twitter, GearFill } from "react-bootstrap-icons";
+import {
+  Link45deg,
+  Github,
+  Instagram,
+  Twitter,
+  GearFill,
+} from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Avatar from "../../Components/Avatar";
+import AvatarComponent from "../../Components/AvatarComponent";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../Atoms";
 
@@ -77,6 +83,13 @@ export default function Profile() {
     userNamingInfo = `| ${userData?.name || ""} ${userData?.lastname || ""}`;
   }
 
+  let userNameForAvatarGenerating = "";
+  if (userData?.name && userData?.lastname) {
+    userNameForAvatarGenerating = `${userData?.name} ${userData?.lastname[0]}`;
+  } else {
+    userNameForAvatarGenerating = userData?.username || "";
+  }
+
   return (
     <div className={classes.main}>
       <div
@@ -89,12 +102,21 @@ export default function Profile() {
             : {}
         }
       >
-        <Avatar userId={+(id || -1)} className={classes.avatar} />
+        <AvatarComponent
+          userId={+(id || -1)}
+          className={classes.avatar}
+          userNameForAvatar={userNameForAvatarGenerating}
+          size="normal"
+        />
         <h2>
           {userData?.username} {userNamingInfo}
         </h2>
         <p>Followers: [21] | Following: [37]</p>
-        {user.id === +(id || 0) && <Link to={`/profile/settings`} className={classes.cog}><GearFill /></Link>}
+        {user.id === +(id || 0) && (
+          <Link to={`/profile/settings`} className={classes.cog}>
+            <GearFill />
+          </Link>
+        )}
       </div>
       <div className={classes.mainRow}>
         <div className={classes.left}>

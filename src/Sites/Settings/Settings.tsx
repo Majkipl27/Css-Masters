@@ -4,7 +4,7 @@ import Button from "../../Components/Button";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../Atoms";
 import { useEffect, useState } from "react";
-import Avatar from "../../Components/Avatar";
+import AvatarComponent from "../../Components/AvatarComponent";
 import { useNavigate } from "react-router-dom";
 
 interface userData {
@@ -73,6 +73,17 @@ export default function Settings() {
     getBannerUrl();
   }, [id, navigate]);
 
+  const bannerStyle = {
+    background: `linear-gradient(92deg, rgba(66, 66, 66, 0.60) 0%, rgba(66, 66, 66, 0.60) 100%), url('${bannerUrl}') no-repeat center center`,
+  };
+
+  let userNameForAvatarGenerating = "";
+  if (userData?.name && userData?.lastname) {
+    userNameForAvatarGenerating = `${userData?.name} ${userData?.lastname[0]}`;
+  } else {
+    userNameForAvatarGenerating = userData?.username || "";
+  }
+
   return (
     <div className={classes.main}>
       <h2>Settings</h2>
@@ -82,22 +93,25 @@ export default function Settings() {
           <Input placeholder="Name" value={userData?.name} />
           <Input placeholder="Lastname" value={userData?.lastname} />
           <Input placeholder="E-Mail" type="email" value={userData?.email} />
-          <textarea placeholder="Description" defaultValue={userData?.description} title="Description" />
+          <textarea
+            placeholder="Description"
+            defaultValue={userData?.description}
+            title="Description"
+            maxLength={600}
+          />
           <Button type="alt">Change Password</Button>
           <Button type="alt">Delete Account</Button>
         </div>
         <div className={classes.right}>
           <div
             className={classes.avatarSection}
-            style={
-              bannerUrl
-                ? {
-                    background: `linear-gradient(92deg, rgba(66, 66, 66, 0.60) 0%, rgba(66, 66, 66, 0.60) 100%), url('${bannerUrl}') no-repeat center center`,
-                  }
-                : {}
-            }
+            style={bannerUrl ? bannerStyle : {}}
           >
-            <Avatar userId={+(id || -1)} className={classes.avatar} />
+            <AvatarComponent
+              userId={+(id || -1)}
+              className={classes.avatar}
+              userNameForAvatar={userNameForAvatarGenerating}
+            />
           </div>
           <div className={classes.imagesInputs}>
             <label className={classes.inputFile}>
@@ -111,10 +125,10 @@ export default function Settings() {
           </div>
           <div className={classes.line} />
           <h3>Socials</h3>
-          <Input placeholder="Website" value={userData?.website}/>
-          <Input placeholder="Github Username" value={userData?.github}/>
-          <Input placeholder="Instagram Username" value={userData?.instagram}/>
-          <Input placeholder="X Username" value={userData?.x}/>
+          <Input placeholder="Website" value={userData?.website} />
+          <Input placeholder="Github Username" value={userData?.github} />
+          <Input placeholder="Instagram Username" value={userData?.instagram} />
+          <Input placeholder="X Username" value={userData?.x} />
           <Button type="default">Save Settings</Button>
         </div>
       </form>

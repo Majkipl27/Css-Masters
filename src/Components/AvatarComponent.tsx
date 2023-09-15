@@ -1,20 +1,16 @@
 import { useState, useCallback, useEffect } from "react";
-import defaultAvatar from "../Graphics/default_avatar.svg";
 import { ColorRing } from "react-loader-spinner";
+import Avatar from "react-avatar";
 
-const Avatar = (props: {
-  userId: number;
-  className?: any;
-  override?: string;
-}) => {
+const AvatarComponent = (props: { userId: number; className?: any; userNameForAvatar: string; size?: "small" | "normal"}) => {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const AvatarSpinner = () => (
     <ColorRing
       visible={true}
-      height="80"
-      width="80"
+      width={props.size === "small" ? "1.25rem" : "12rem"}
+      height={props.size === "small" ? "1.25rem" : "12rem"}
       ariaLabel="blocks-loading"
       wrapperStyle={{}}
       wrapperClass="blocks-wrapper"
@@ -35,7 +31,7 @@ const Avatar = (props: {
         return res.blob();
       })
       .then((blob) => setAvatarUrl(URL.createObjectURL(blob)))
-      .catch(() => setAvatarUrl(defaultAvatar))
+      .catch(() => setAvatarUrl(""))
       .finally(() => {
         setIsLoading(false);
       });
@@ -49,15 +45,17 @@ const Avatar = (props: {
     <>
       {isLoading ? (
         <AvatarSpinner />
+      ) : avatarUrl ? (
+        <img className={props.className} src={avatarUrl} alt="User's avatar" />
       ) : (
-        <img
-          className={props.className}
-          src={props.override ? props.override : avatarUrl}
-          alt="User's avatar"
+        <Avatar
+          name={props.userNameForAvatar}
+          size={props.size === "small" ? "1.5rem" : "12rem"}
+          round={true}
         />
       )}
     </>
   );
 };
 
-export default Avatar;
+export default AvatarComponent;

@@ -3,7 +3,7 @@ import classes from "./SearchBar.module.css";
 import { Search } from "react-bootstrap-icons";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import Avatar from "./Avatar";
+import Avatar from "./AvatarComponent";
 
 interface result {
   id: number;
@@ -38,7 +38,7 @@ export default function SearchBar() {
       .then((data) => {
         setResults(data);
       })
-      .catch((error) => toast.error(error.message));
+      .catch(() => toast.error("Failed to fetch data!"));
   };
 
   function detectOnAbortingSearch(ref: any) {
@@ -56,7 +56,7 @@ export default function SearchBar() {
   }
 
   return (
-    <div className={classes.searchBar} ref={wrapperRef}>
+    <div className={`${classes.searchBar} ${isUserSearching ? classes.searchBarActive : ""}`} ref={wrapperRef}>
       <input
         type="text"
         placeholder="Search"
@@ -67,16 +67,30 @@ export default function SearchBar() {
       <Search />
       {isUserSearching && results.length > 0 && (
         <div className={classes.searchResults}>
-          {results.map((result) => (
-            <Link
-              to={`/profile/${result.id}`}
-              key={result.id}
-              className={classes.searchResult}
-            >
-              <Avatar userId={result.id} />
-              {result.username}
-            </Link>
-          ))}
+          {results.map((result) => {
+            let userNameForAvatarGenerating = "";
+            if (result?.name && result?.lastname) {
+              userNameForAvatarGenerating = `${result?.name} ${result?.lastname[0]}`;
+            } else {
+              userNameForAvatarGenerating = result?.username || "";
+            }
+
+            return (
+              <Link
+                to={`/profile/${result.id}`}
+                key={result.id}
+                className={classes.searchResult}
+                onClick={() => {setIsUserSearching(false);}}
+              >
+                <Avatar
+                  userId={result.id}
+                  userNameForAvatar={userNameForAvatarGenerating}
+                  size="small"
+                />
+                {result.username}
+              </Link>
+            );
+          })}
         </div>
       )}
       {searchInputRef.current?.value && results.length === 0 && (

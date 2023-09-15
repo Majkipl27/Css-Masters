@@ -9,7 +9,7 @@ import { toast } from "react-hot-toast";
 import { useEffect } from "react";
 import getUserObject from "../lib/getUser";
 import SearchBar from "../Components/SearchBar";
-import Avatar from "../Components/Avatar";
+import Avatar from "../Components/AvatarComponent";
 
 export default function Header() {
   const [user, setUser] = useAtom(userAtom);
@@ -32,6 +32,15 @@ export default function Header() {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  let userNameForAvatarGenerating = "";
+  if (user.id) {
+    if (user?.name && user?.lastname) {
+      userNameForAvatarGenerating = `${user?.name} ${user?.lastname[0]}`;
+    } else {
+      userNameForAvatarGenerating = user?.username || "";
+    }
   }
 
   return (
@@ -67,7 +76,11 @@ export default function Header() {
                     : classes.profile
                 }
               >
-                <Avatar userId={user.id} />
+                <Avatar
+                  userId={user.id}
+                  userNameForAvatar={userNameForAvatarGenerating}
+                  size="small"
+                />
                 <p>{user.username}</p>
               </NavLink>
               <DoorOpenFill

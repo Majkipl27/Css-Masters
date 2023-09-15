@@ -1,6 +1,6 @@
 import classes from "./Register.module.css";
 import { ArrowLeft } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../../../Components/Input";
 import Button from "../../../Components/Button";
 import BgImage from "../Graphics/BgImage.svg";
@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { useRef } from "react";
 
 export default function Register() {
+  const navigate = useNavigate();
+
   function register() {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
@@ -47,6 +49,7 @@ export default function Register() {
       ).then(response => {
         if (response.status === 201) {
           toast.success("Registered! you can now login!");
+          navigate("/login")
         } else if (response.status === 403) {
           toast.error("Somebody already have that username or this email was registered before!");
         }
