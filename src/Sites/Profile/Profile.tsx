@@ -106,7 +106,7 @@ export default function Profile() {
           userId={+(id || -1)}
           className={classes.avatar}
           userNameForAvatar={userNameForAvatarGenerating}
-          size="normal"
+          size="big"
         />
         <h2>
           {userData?.username} {userNamingInfo}

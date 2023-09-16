@@ -2,15 +2,27 @@ import { useState, useCallback, useEffect } from "react";
 import { ColorRing } from "react-loader-spinner";
 import Avatar from "react-avatar";
 
-const AvatarComponent = (props: { userId: number; className?: any; userNameForAvatar: string; size?: "small" | "normal"}) => {
+const AvatarComponent = (props: { userId: number; className?: any; userNameForAvatar: string; size?: "small" | "medium" | "big"}) => {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const AvatarSpinner = () => (
     <ColorRing
       visible={true}
-      width={props.size === "small" ? "1.25rem" : "12rem"}
-      height={props.size === "small" ? "1.25rem" : "12rem"}
+      width={
+        props.size === "small"
+          ? "1.5rem"
+          : props.size === "medium"
+          ? "8rem"
+          : "12rem"
+      }
+      height={
+        props.size === "small"
+          ? "1.5rem"
+          : props.size === "medium"
+          ? "8rem"
+          : "12rem"
+      }
       ariaLabel="blocks-loading"
       wrapperStyle={{}}
       wrapperClass="blocks-wrapper"
@@ -50,7 +62,7 @@ const AvatarComponent = (props: { userId: number; className?: any; userNameForAv
       ) : (
         <Avatar
           name={props.userNameForAvatar}
-          size={props.size === "small" ? "1.5rem" : "12rem"}
+          size={props.size === "small" ? "1.5rem" : props.size === "medium" ? "8rem" : "12rem"}
           round={true}
         />
       )}

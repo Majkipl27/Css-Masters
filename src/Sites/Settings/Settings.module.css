@@ -66,6 +66,12 @@
   min-height: 10rem;
   width: 100%;
   border-radius: 0.5rem;
+  background: linear-gradient(
+    92deg,
+    rgba(36, 175, 193, 0.37) 0%,
+    rgba(199, 199, 199, 0.37) 50%,
+    rgba(233, 140, 41, 0.801) 100%
+  );
 }
 
 .avatarSection img {
@@ -84,44 +90,92 @@
 }
 
 .imagesInputs {
-    display: flex;
-    gap: 1rem;
-    width: 100%;
+  display: flex;
+  gap: 1rem;
+  width: 100%;
 }
 
 .inputFile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5rem;
-    border: 0.25rem solid #495057;
-    font-size: 1rem;
-    color: var(--font-alt);
-    font-family: "Roboto Slab", serif;
-    box-sizing: border-box;
-    padding: .5rem;
-    cursor: pointer;
-    width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  border: 0.25rem solid #495057;
+  font-size: 1rem;
+  color: var(--font-alt);
+  font-family: "Roboto Slab", serif;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  cursor: pointer;
+  width: 50%;
 }
 
 .inputFile:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .inputFile > input {
-    display: none;
+  display: none;
 }
 
 .right button:last-of-type {
-    width: 100%;
+  width: 100%;
 }
 
 .right h3 {
-    font-size: 2rem;
-    color: var(--font-alt);
-    font-family: "Quantico", sans-serif;
-    font-weight: 400;
-    text-shadow: 0px 2px 0px rgba(173, 181, 189, 0.4);
-    margin: .25rem 0;
-    width: 100%;
+  font-size: 2rem;
+  color: var(--font-alt);
+  font-family: "Quantico", sans-serif;
+  font-weight: 400;
+  text-shadow: 0px 2px 0px rgba(173, 181, 189, 0.4);
+  margin: 0.25rem 0;
+  width: 100%;
+}
+
+.backdrop {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #00000050;
+  z-index: 12;
+}
+
+.avatarEditorModal {
+  position: absolute;
+  top: 25%;
+  left: 40%;
+  background-color: var(--bg-lght);
+  border-radius: 0.5rem;
+  z-index: 13;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: auto;
+  padding: 1rem;
+}
+
+.avatarEditorModal button {
+  width: 100%;
+}
+
+.avatarEditorModal input[type="range"] {
+  width: 100%;
+  border: 0.25rem solid #495057;
+  background-color: #495057;
+  appearance: none;  
+  border-radius: 1rem;
+}
+
+.avatarEditorModal input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: var(--font-alt);
+  cursor: pointer;
 }

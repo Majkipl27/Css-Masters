@@ -3,9 +3,11 @@ import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../Atoms";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import AvatarComponent from "../../Components/AvatarComponent";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import AvatarEditor from "react-avatar-editor";
 
 interface userData {
   id: number;
@@ -25,6 +27,11 @@ interface userData {
   lastname?: string;
 }
 
+interface avatarOptions {
+  scale: number;
+  rotate: number;
+}
+
 export default function Settings() {
   const navigate = useNavigate();
   const user = useAtomValue(userAtom);
@@ -32,6 +39,16 @@ export default function Settings() {
   if (!id) navigate("login");
   const [userData, setUserData] = useState<userData>();
   const [bannerUrl, setBannerUrl] = useState<string>("");
+  const [newAvatarUrl, setNewAvatarUrl] = useState<string>("");
+  const [isUserEditingAvatar, setIsUserEditingAvatar] =
+    useState<boolean>(false);
+  const [avatarEditingOptions, setAvatarEditingOptions] =
+    useState<avatarOptions>();
+  const [hasUserUploadedBanner, setHasUserUploadedBanner] =
+    useState<boolean>(false);
+
+  const newAvatarRef = useRef<any>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     async function getPublicInfo() {
@@ -75,6 +92,7 @@ export default function Settings() {
 
   const bannerStyle = {
     background: `linear-gradient(92deg, rgba(66, 66, 66, 0.60) 0%, rgba(66, 66, 66, 0.60) 100%), url('${bannerUrl}') no-repeat center center`,
+    backgroundSize: "contain",
   };
 
   let userNameForAvatarGenerating = "";
@@ -84,8 +102,118 @@ export default function Settings() {
     userNameForAvatarGenerating = userData?.username || "";
   }
 
+  function uploadBanner(e: any) {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.type !== "image/png" && file.type !== "image/jpeg") {
+      toast.error("Only .png and .jpeg files are allowed!");
+      return;
+    }
+    setBannerUrl(URL.createObjectURL(file));
+    setHasUserUploadedBanner(true);
+  }
+
+  function uploadAvatar(e: any) {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.type !== "image/png" && file.type !== "image/jpeg") {
+      toast.error("Only .png and .jpeg files are allowed!");
+      return;
+    }
+    setNewAvatarUrl(URL.createObjectURL(file));
+    setIsUserEditingAvatar(true);
+  }
+
+  function closeModal() {
+    setIsUserEditingAvatar(false);
+    setNewAvatarUrl("");
+    setAvatarEditingOptions(undefined);
+    if (avatarInputRef.current) avatarInputRef.current.value = '';
+  }
+
+  function setRotate(direction: string) {
+    if (direction === "left")
+      setAvatarEditingOptions({
+        scale: avatarEditingOptions?.scale || 1,
+        rotate: (avatarEditingOptions?.rotate || 0) - 90,
+      });
+    else
+      setAvatarEditingOptions({
+        scale: avatarEditingOptions?.scale || 1,
+        rotate: (avatarEditingOptions?.rotate || 0) + 90,
+      });
+  }
+
+  function setScale(e: any) {
+    setAvatarEditingOptions({
+      scale: e.target.value,
+      rotate: avatarEditingOptions?.rotate || 0,
+    });
+  }
+
+  function saveAvatarImage() {
+    if (!newAvatarRef.current) return;
+    const canvas = newAvatarRef.current.getImage();
+    canvas.toBlob((blob: Blob) => {
+      if (!blob) return;
+      setNewAvatarUrl(URL.createObjectURL(blob));
+      setIsUserEditingAvatar(false);
+    });
+    setAvatarEditingOptions(undefined);
+    setIsUserEditingAvatar(false);
+    if (avatarInputRef.current) avatarInputRef.current.value = "";
+  }
+
+  const avatarEditorModal = (
+    <div className={classes.backdrop}>
+      <div className={classes.avatarEditorModal}>
+        <Button type="alt" onClick={closeModal}>
+          Cancel
+        </Button>
+        <AvatarEditor
+          image={newAvatarUrl}
+          width={14 * 16}
+          height={14 * 16}
+          borderRadius={150}
+          color={[173, 181, 189, 0.6]}
+          scale={avatarEditingOptions?.scale || 1}
+          rotate={avatarEditingOptions?.rotate || 0}
+          ref={newAvatarRef}
+        />
+        <Button
+          type="alt"
+          onClick={() => {
+            setRotate("left");
+          }}
+        >
+          Rotate Left
+        </Button>
+        <Button
+          type="alt"
+          onClick={() => {
+            setRotate("right");
+          }}
+        >
+          Rotate Right
+        </Button>
+        <input
+          type="range"
+          min={1}
+          max={2}
+          onChange={setScale}
+          step={0.01}
+          defaultValue={1}
+        />
+        <Button type="default" onClick={saveAvatarImage}>
+          Save
+        </Button>
+      </div>
+    </div>
+  );
+
   return (
     <div className={classes.main}>
+      {isUserEditingAvatar && avatarEditorModal}
       <h2>Settings</h2>
       <form className={classes.flex}>
         <div className={classes.left}>
@@ -107,20 +235,25 @@ export default function Settings() {
             className={classes.avatarSection}
             style={bannerUrl ? bannerStyle : {}}
           >
-            <AvatarComponent
-              userId={+(id || -1)}
-              className={classes.avatar}
-              userNameForAvatar={userNameForAvatarGenerating}
-            />
+            {!isUserEditingAvatar && newAvatarUrl ? (
+              <img src={newAvatarUrl} alt="Img" />
+            ) : (
+              <AvatarComponent
+                userId={+(id || -1)}
+                className={classes.avatar}
+                userNameForAvatar={userNameForAvatarGenerating}
+                size="medium"
+              />
+            )}
           </div>
           <div className={classes.imagesInputs}>
             <label className={classes.inputFile}>
               Upload Avatar
-              <input type="file" />
+              <input type="file" onChange={uploadAvatar} ref={avatarInputRef} />
             </label>
             <label className={classes.inputFile}>
               Upload Banner
-              <input type="file" />
+              <input type="file" onChange={uploadBanner} />
             </label>
           </div>
           <div className={classes.line} />
