@@ -2,7 +2,7 @@ import { Link, Outlet, NavLink } from "react-router-dom";
 import Logo from "../Graphics/Logo.svg";
 import classes from "./Header.module.css";
 import Button from "../Components/Button";
-import { useAtom } from "jotai/react";
+import { useAtom, useAtomValue } from "jotai/react";
 import { userAtom } from "../Atoms";
 import { DoorOpenFill } from "react-bootstrap-icons";
 import { toast } from "react-hot-toast";

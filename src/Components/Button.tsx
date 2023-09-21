@@ -8,6 +8,7 @@ interface ButtonProps {
   to?: string;
   className?: string;
   children: React.ReactNode;
+  submit?: boolean
 }
 
 export default function Button({
@@ -17,6 +18,7 @@ export default function Button({
   type,
   isLink,
   to,
+  submit,
 }: ButtonProps) {
   const link = (
     <Link
@@ -32,7 +34,10 @@ export default function Button({
   const button = (
     <button
       onClick={onClick}
-      className={`${type === "alt" ? classes.alt : classes.button} ${className || ""}`}
+      className={`${type === "alt" ? classes.alt : classes.button} ${
+        className || ""
+      }`}
+      type={submit ? "submit" : "button"}
     >
       {children}
     </button>

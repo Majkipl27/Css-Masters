@@ -152,14 +152,28 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
   gap: 1rem;
   margin: auto;
   padding: 1rem;
 }
 
-.avatarEditorModal button {
+.avatarEditorModal > svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: var(--font-alt);
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.avatarEditorRotateControls {
+  display: flex;
+  align-items: center;
   width: 100%;
+  gap: 1rem;
+}
+
+.avatarEditorRotateControls button {
+  width: 50%;
 }
 
 .avatarEditorModal input[type="range"] {
@@ -168,6 +182,7 @@
   background-color: #495057;
   appearance: none;  
   border-radius: 1rem;
+  box-sizing: border-box;
 }
 
 .avatarEditorModal input[type="range"]::-webkit-slider-thumb {

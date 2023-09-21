@@ -8,6 +8,11 @@ import AvatarComponent from "../../Components/AvatarComponent";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import AvatarEditor from "react-avatar-editor";
+import {
+  ArrowClockwise,
+  ArrowCounterclockwise,
+  X,
+} from "react-bootstrap-icons";
 
 interface userData {
   id: number;
@@ -39,7 +44,8 @@ export default function Settings() {
   if (!id) navigate("login");
   const [userData, setUserData] = useState<userData>();
   const [bannerUrl, setBannerUrl] = useState<string>("");
-  const [newAvatarUrl, setNewAvatarUrl] = useState<string>("");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
+  const [avatarBlob, setAvatarBlob] = useState<Blob>();
   const [isUserEditingAvatar, setIsUserEditingAvatar] =
     useState<boolean>(false);
   const [avatarEditingOptions, setAvatarEditingOptions] =
@@ -48,7 +54,7 @@ export default function Settings() {
     useState<boolean>(false);
 
   const newAvatarRef = useRef<any>(null);
-  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const bannerInputRef = useRef<any>(null);
 
   useEffect(() => {
     async function getPublicInfo() {
@@ -92,7 +98,6 @@ export default function Settings() {
 
   const bannerStyle = {
     background: `linear-gradient(92deg, rgba(66, 66, 66, 0.60) 0%, rgba(66, 66, 66, 0.60) 100%), url('${bannerUrl}') no-repeat center center`,
-    backgroundSize: "contain",
   };
 
   let userNameForAvatarGenerating = "";
@@ -120,15 +125,14 @@ export default function Settings() {
       toast.error("Only .png and .jpeg files are allowed!");
       return;
     }
-    setNewAvatarUrl(URL.createObjectURL(file));
+    setAvatarUrl(URL.createObjectURL(file));
     setIsUserEditingAvatar(true);
   }
 
   function closeModal() {
     setIsUserEditingAvatar(false);
-    setNewAvatarUrl("");
+    setAvatarUrl("");
     setAvatarEditingOptions(undefined);
-    if (avatarInputRef.current) avatarInputRef.current.value = '';
   }
 
   function setRotate(direction: string) {
@@ -156,22 +160,20 @@ export default function Settings() {
     const canvas = newAvatarRef.current.getImage();
     canvas.toBlob((blob: Blob) => {
       if (!blob) return;
-      setNewAvatarUrl(URL.createObjectURL(blob));
+      setAvatarUrl(URL.createObjectURL(blob));
+      setAvatarBlob(blob);
       setIsUserEditingAvatar(false);
     });
     setAvatarEditingOptions(undefined);
     setIsUserEditingAvatar(false);
-    if (avatarInputRef.current) avatarInputRef.current.value = "";
   }
 
   const avatarEditorModal = (
     <div className={classes.backdrop}>
       <div className={classes.avatarEditorModal}>
-        <Button type="alt" onClick={closeModal}>
-          Cancel
-        </Button>
+        <X onClick={closeModal} />
         <AvatarEditor
-          image={newAvatarUrl}
+          image={avatarUrl}
           width={14 * 16}
           height={14 * 16}
           borderRadius={150}
@@ -180,26 +182,28 @@ export default function Settings() {
           rotate={avatarEditingOptions?.rotate || 0}
           ref={newAvatarRef}
         />
-        <Button
-          type="alt"
-          onClick={() => {
-            setRotate("left");
-          }}
-        >
-          Rotate Left
-        </Button>
-        <Button
-          type="alt"
-          onClick={() => {
-            setRotate("right");
-          }}
-        >
-          Rotate Right
-        </Button>
+        <div className={classes.avatarEditorRotateControls}>
+          <Button
+            type="alt"
+            onClick={() => {
+              setRotate("left");
+            }}
+          >
+            <ArrowCounterclockwise />
+          </Button>
+          <Button
+            type="alt"
+            onClick={() => {
+              setRotate("right");
+            }}
+          >
+            <ArrowClockwise />
+          </Button>
+        </div>
         <input
           type="range"
           min={1}
-          max={2}
+          max={3}
           onChange={setScale}
           step={0.01}
           defaultValue={1}
@@ -211,21 +215,84 @@ export default function Settings() {
     </div>
   );
 
+  function submitHandler(e: any) {
+    e.preventDefault();
+
+    //ik this looks terrible but it works
+    //idk why i needed to do this in such a weird way
+    //if i just used formData.entries() it would return empty values
+    //so i had to do this
+
+    const formData = new FormData(e.target);
+
+    if (hasUserUploadedBanner) {
+      formData.append("banner", bannerInputRef.current?.files[0]);
+    }
+
+    if (avatarBlob) {
+      formData.append("avatar", avatarBlob);
+    }
+
+    let values = Object.fromEntries(formData.entries());
+
+    let newObject = {} as any;
+
+    for (const [key, value] of Object.entries(values)) {
+      if (value) {
+        newObject = { ...newObject, [key]: value };
+      }
+    }
+
+    const correctFormdata = new FormData();
+
+    for (const key in newObject) {
+      correctFormdata.append(key, newObject[key]);
+    }
+
+    fetch(`${process.env.REACT_APP_API_URL}/user/settings/`, {
+      method: "PATCH",
+      body: correctFormdata,
+      credentials: "include",
+    })
+      .then((response) => {
+        if (response.ok) toast.success("Settings saved! (avatar change in header may not apprear instantly)");
+      })
+      .catch((error) => {
+        toast.error("Failed to save settings!");
+        console.log("error", error);
+      });
+  }
+
   return (
     <div className={classes.main}>
       {isUserEditingAvatar && avatarEditorModal}
       <h2>Settings</h2>
-      <form className={classes.flex}>
+      <form className={classes.flex} onSubmit={submitHandler}>
         <div className={classes.left}>
-          <Input placeholder="Username" value={userData?.username} />
-          <Input placeholder="Name" value={userData?.name} />
-          <Input placeholder="Lastname" value={userData?.lastname} />
-          <Input placeholder="E-Mail" type="email" value={userData?.email} />
+          <Input
+            placeholder="Username"
+            value={userData?.username}
+            name="username"
+          />
+          <Input placeholder="Name" value={userData?.name} name="name" />
+          <Input
+            placeholder="Lastname"
+            value={userData?.lastname}
+            name="lastname"
+          />
+          <Input
+            placeholder="E-Mail"
+            type="email"
+            value={userData?.email}
+            readonly
+            name="email"
+          />
           <textarea
             placeholder="Description"
             defaultValue={userData?.description}
             title="Description"
             maxLength={600}
+            name="description"
           />
           <Button type="alt">Change Password</Button>
           <Button type="alt">Delete Account</Button>
@@ -235,11 +302,11 @@ export default function Settings() {
             className={classes.avatarSection}
             style={bannerUrl ? bannerStyle : {}}
           >
-            {!isUserEditingAvatar && newAvatarUrl ? (
-              <img src={newAvatarUrl} alt="Img" />
+            {!isUserEditingAvatar && avatarUrl ? (
+              <img src={avatarUrl} alt="Img" />
             ) : (
               <AvatarComponent
-                userId={+(id || -1)}
+                userId={+id}
                 className={classes.avatar}
                 userNameForAvatar={userNameForAvatarGenerating}
                 size="medium"
@@ -249,20 +316,39 @@ export default function Settings() {
           <div className={classes.imagesInputs}>
             <label className={classes.inputFile}>
               Upload Avatar
-              <input type="file" onChange={uploadAvatar} ref={avatarInputRef} />
+              <input
+                type="file"
+                onChange={uploadAvatar}
+                name="avatar"
+                defaultValue={avatarUrl}
+              />
             </label>
             <label className={classes.inputFile}>
               Upload Banner
-              <input type="file" onChange={uploadBanner} />
+              <input type="file" onChange={uploadBanner} name="banner" ref={bannerInputRef}/>
             </label>
           </div>
           <div className={classes.line} />
           <h3>Socials</h3>
-          <Input placeholder="Website" value={userData?.website} />
-          <Input placeholder="Github Username" value={userData?.github} />
-          <Input placeholder="Instagram Username" value={userData?.instagram} />
-          <Input placeholder="X Username" value={userData?.x} />
-          <Button type="default">Save Settings</Button>
+          <Input
+            placeholder="Website"
+            value={userData?.website}
+            name="website"
+          />
+          <Input
+            placeholder="Github Username"
+            value={userData?.github}
+            name="github"
+          />
+          <Input
+            placeholder="Instagram Username"
+            value={userData?.instagram}
+            name="instagram"
+          />
+          <Input placeholder="X Username" value={userData?.x} name="x" />
+          <Button type="default" submit>
+            Save Settings
+          </Button>
         </div>
       </form>
     </div>

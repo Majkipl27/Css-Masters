@@ -60,7 +60,8 @@
   text-decoration: none;
 }
 
-.profile > span {
+.profile > span,
+.profile > img {
   width: 1.5rem;
   height: 1.5rem;
   border: .125rem solid var(--font-alt);

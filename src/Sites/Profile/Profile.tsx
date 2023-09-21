@@ -41,7 +41,7 @@ export default function Profile() {
   useEffect(() => {
     async function getPublicInfo() {
       try {
-        await fetch(`${process.env.REACT_APP_API_URL}/user/${id}`, {
+        await fetch(`${process.env.REACT_APP_API_URL}/user/${+(id || 0)}`, {
           method: "GET",
           credentials: "include",
           headers: {
