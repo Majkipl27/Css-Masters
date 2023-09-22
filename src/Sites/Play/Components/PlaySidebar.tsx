@@ -1,5 +1,6 @@
 import { useState } from "react";
 import classes from "./PlaySidebar.module.css";
+import { motion } from "framer-motion";
 
 interface gameType {
   id: number;
@@ -45,11 +46,14 @@ export default function PlaySidebar() {
 
   return (
     <>
-      <p
+      <motion.p
         className={classes.switch}
         onClick={() => {
           setIsShown(!isShown);
         }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0, transition: { duration: 0.5 } }}
         style={
           isShown
             ? {
@@ -63,8 +67,11 @@ export default function PlaySidebar() {
         }
       >
         Hide/Show
-      </p>
-      <div
+      </motion.p>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0, transition: { duration: 0.5 } }}
         className={classes.main}
         style={
           isShown
@@ -125,7 +132,7 @@ export default function PlaySidebar() {
             </select>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

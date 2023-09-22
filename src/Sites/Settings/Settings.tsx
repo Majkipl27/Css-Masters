@@ -13,6 +13,8 @@ import {
   ArrowCounterclockwise,
   X,
 } from "react-bootstrap-icons";
+import { motion } from "framer-motion";
+import Loader from "../../Components/Loader";
 
 interface userData {
   id: number;
@@ -69,13 +71,16 @@ export default function Settings() {
           .then((res) => res.json())
           .then((data) => {
             if (data.statusCode >= 400) {
-              navigate("/404");
+              toast.error("Failed to load user data!");
+              navigate(`/profile/${id}`);
             } else {
               setUserData(data);
             }
           });
       } catch (error) {
         console.error(error);
+        toast.error("Failed to load user data!");
+        navigate(`/profile/${id}`);
       }
     }
 
@@ -255,7 +260,10 @@ export default function Settings() {
       credentials: "include",
     })
       .then((response) => {
-        if (response.ok) toast.success("Settings saved! (avatar change in header may not apprear instantly)");
+        if (response.ok)
+          toast.success(
+            "Settings saved! (avatar change in header may not apprear instantly)"
+          );
       })
       .catch((error) => {
         toast.error("Failed to save settings!");
@@ -264,93 +272,113 @@ export default function Settings() {
   }
 
   return (
-    <div className={classes.main}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.5 } }}
+      className={classes.main}
+    >
       {isUserEditingAvatar && avatarEditorModal}
       <h2>Settings</h2>
-      <form className={classes.flex} onSubmit={submitHandler}>
-        <div className={classes.left}>
-          <Input
-            placeholder="Username"
-            value={userData?.username}
-            name="username"
-          />
-          <Input placeholder="Name" value={userData?.name} name="name" />
-          <Input
-            placeholder="Lastname"
-            value={userData?.lastname}
-            name="lastname"
-          />
-          <Input
-            placeholder="E-Mail"
-            type="email"
-            value={userData?.email}
-            readonly
-            name="email"
-          />
-          <textarea
-            placeholder="Description"
-            defaultValue={userData?.description}
-            title="Description"
-            maxLength={600}
-            name="description"
-          />
-          <Button type="alt">Change Password</Button>
-          <Button type="alt">Delete Account</Button>
-        </div>
-        <div className={classes.right}>
-          <div
-            className={classes.avatarSection}
-            style={bannerUrl ? bannerStyle : {}}
-          >
-            {!isUserEditingAvatar && avatarUrl ? (
-              <img src={avatarUrl} alt="Img" />
-            ) : (
-              <AvatarComponent
-                userId={+id}
-                className={classes.avatar}
-                userNameForAvatar={userNameForAvatarGenerating}
-                size="medium"
-              />
-            )}
+      {userData ? (
+        <motion.form
+          className={classes.flex}
+          onSubmit={submitHandler}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, transition: { duration: 0.5 } }}
+        >
+          <div className={classes.left}>
+            <Input
+              placeholder="Username"
+              value={userData?.username}
+              name="username"
+            />
+            <Input placeholder="Name" value={userData?.name} name="name" />
+            <Input
+              placeholder="Lastname"
+              value={userData?.lastname}
+              name="lastname"
+            />
+            <Input
+              placeholder="E-Mail"
+              type="email"
+              value={userData?.email}
+              readonly
+              name="email"
+            />
+            <textarea
+              placeholder="Description"
+              defaultValue={userData?.description}
+              title="Description"
+              maxLength={600}
+              name="description"
+            />
+            <Button type="alt">Change Password</Button>
+            <Button type="alt">Delete Account</Button>
           </div>
-          <div className={classes.imagesInputs}>
-            <label className={classes.inputFile}>
-              Upload Avatar
-              <input
-                type="file"
-                onChange={uploadAvatar}
-                name="avatar"
-                defaultValue={avatarUrl}
-              />
-            </label>
-            <label className={classes.inputFile}>
-              Upload Banner
-              <input type="file" onChange={uploadBanner} name="banner" ref={bannerInputRef}/>
-            </label>
+          <div className={classes.right}>
+            <div
+              className={classes.avatarSection}
+              style={bannerUrl ? bannerStyle : {}}
+            >
+              {!isUserEditingAvatar && avatarUrl ? (
+                <img src={avatarUrl} alt="Img" />
+              ) : (
+                <AvatarComponent
+                  userId={+id}
+                  className={classes.avatar}
+                  userNameForAvatar={userNameForAvatarGenerating}
+                  size="medium"
+                />
+              )}
+            </div>
+            <div className={classes.imagesInputs}>
+              <label className={classes.inputFile}>
+                Upload Avatar
+                <input
+                  type="file"
+                  onChange={uploadAvatar}
+                  name="avatar"
+                  defaultValue={avatarUrl}
+                />
+              </label>
+              <label className={classes.inputFile}>
+                Upload Banner
+                <input
+                  type="file"
+                  onChange={uploadBanner}
+                  name="banner"
+                  ref={bannerInputRef}
+                />
+              </label>
+            </div>
+            <div className={classes.line} />
+            <h3>Socials</h3>
+            <Input
+              placeholder="Website"
+              value={userData?.website}
+              name="website"
+            />
+            <Input
+              placeholder="Github Username"
+              value={userData?.github}
+              name="github"
+            />
+            <Input
+              placeholder="Instagram Username"
+              value={userData?.instagram}
+              name="instagram"
+            />
+            <Input placeholder="X Username" value={userData?.x} name="x" />
+            <Button type="default" submit>
+              Save Settings
+            </Button>
           </div>
-          <div className={classes.line} />
-          <h3>Socials</h3>
-          <Input
-            placeholder="Website"
-            value={userData?.website}
-            name="website"
-          />
-          <Input
-            placeholder="Github Username"
-            value={userData?.github}
-            name="github"
-          />
-          <Input
-            placeholder="Instagram Username"
-            value={userData?.instagram}
-            name="instagram"
-          />
-          <Input placeholder="X Username" value={userData?.x} name="x" />
-          <Button type="default" submit>
-            Save Settings
-          </Button>
-        </div>
-      </form>
-    </div>
+        </motion.form>
+      ) : (
+        <Loader addClassName={classes.loader} />
+      )}
+    </motion.div>
   );
 }

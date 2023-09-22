@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import AvatarComponent from "../../Components/AvatarComponent";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../Atoms";
+import { motion } from "framer-motion";
 
 interface userData {
   id: number;
@@ -91,7 +92,12 @@ export default function Profile() {
   }
 
   return (
-    <div className={classes.main}>
+    <motion.div
+      className={classes.main}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.5 } }}
+    >
       <div
         className={classes.avatarSection}
         style={
@@ -209,6 +215,6 @@ export default function Profile() {
           <p className={classes.lastActive}>Last Active: [DD.MM.YYYY]</p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
