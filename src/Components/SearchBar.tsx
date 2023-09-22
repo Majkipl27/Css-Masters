@@ -56,7 +56,14 @@ export default function SearchBar() {
   }
 
   return (
-    <div className={`${classes.searchBar} ${isUserSearching ? classes.searchBarActive : ""}`} ref={wrapperRef}>
+    <div
+      className={`${classes.searchBar} ${
+        isUserSearching && searchInputRef.current?.value
+          ? classes.searchBarActive
+          : ""
+      }`}
+      ref={wrapperRef}
+    >
       <input
         type="text"
         placeholder="Search"
@@ -80,7 +87,9 @@ export default function SearchBar() {
                 to={`/profile/${result.id}`}
                 key={result.id}
                 className={classes.searchResult}
-                onClick={() => {setIsUserSearching(false);}}
+                onClick={() => {
+                  setIsUserSearching(false);
+                }}
               >
                 <Avatar
                   userId={result.id}

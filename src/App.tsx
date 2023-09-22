@@ -6,6 +6,7 @@ import Register from "./Sites/Auth/Register/Register";
 import ToasterComponent from "./Components/Toaster";
 import Profile from "./Sites/Profile/Profile";
 import Settings from "./Sites/Settings/Settings";
+import PlayLandingPage from "./Sites/Play/PlayLandingPage";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/play",
-        element: <h1>play</h1>,
+        element: <PlayLandingPage />,
       },
       {
         path: "/leaderboards",
