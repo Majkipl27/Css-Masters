@@ -9,12 +9,11 @@ body {
 
 body, html, #root {
   height: 100%;
-  overflow-x: hidden;
 }
 
 :root {
   --bg-clr: #212121;
-  --bg-lght: #2828285a;
+  --bg-lght: #282828;
   --font-clr: #F8F9FA;
   --font-alt: #ADB5BD;
   --dark-clr: #343A40;

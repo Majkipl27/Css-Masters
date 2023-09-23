@@ -1,6 +1,5 @@
 import { useState } from "react";
 import classes from "./PlaySidebar.module.css";
-import { motion } from "framer-motion";
 
 interface gameType {
   id: number;
@@ -8,7 +7,7 @@ interface gameType {
   isActive: boolean;
 }
 
-export default function PlaySidebar() {
+export default function PlaySidebar(props: {setDifficulty: any, setSortBy: any}) {
   const [gamesTypes, setGamesTypes] = useState<Array<gameType>>([
     {
       id: 1,
@@ -27,8 +26,6 @@ export default function PlaySidebar() {
     },
   ]);
 
-  const [difficulty, setDifficulty] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<"newest" | "oldest">('newest');
   const [isShown, setIsShown] = useState<boolean>(true);
 
   const setActive = (id: number) => {
@@ -46,46 +43,22 @@ export default function PlaySidebar() {
 
   return (
     <>
-      <motion.p
+      <p
         className={classes.switch}
         onClick={() => {
           setIsShown(!isShown);
         }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0, transition: { duration: 0.5 } }}
-        style={
-          isShown
-            ? {
-                left: "15%",
-                transition: "all 150ms linear",
-              }
-            : {
-                left: "0",
-                transition: "all 150ms linear",
-              }
-        }
+        style={{ left: isShown ? "15%" : "0" }}
       >
         Hide/Show
-      </motion.p>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0, transition: { duration: 0.5 } }}
+      </p>
+      <div
         className={classes.main}
-        style={
-          isShown
-            ? {
-                transform: "scaleX(1)",
-                transformOrigin: "left",
-                transition: "all 150ms linear",
-              }
-            : {
-                transform: "scaleX(0)",
-                transformOrigin: "left",
-                transition: "all 150ms linear",
-              }
-        }
+        style={{
+          transform: isShown ? "translateX(0%)" : "translateX(-100%)",
+          transformOrigin: "left",
+          width: isShown ? "15%" : "0",
+        }}
       >
         <div className={classes.gamesTypes}>
           {gamesTypes.map((gameType) => {
@@ -108,7 +81,7 @@ export default function PlaySidebar() {
           <div className={classes.customSelect}>
             <select
               onChange={(e) => {
-                setDifficulty(e.target.value);
+                props.setDifficulty(e.target.value);
               }}
             >
               <option value="All">All</option>
@@ -124,7 +97,7 @@ export default function PlaySidebar() {
           <div className={classes.customSelect}>
             <select
               onChange={(e) => {
-                setSortBy(e.target.value as "newest" | "oldest");
+                props.setSortBy(e.target.value as "newest" | "oldest");
               }}
             >
               <option value="newest">From newest</option>
@@ -132,7 +105,7 @@ export default function PlaySidebar() {
             </select>
           </div>
         </div>
-      </motion.div>
+      </div>
     </>
   );
 }
