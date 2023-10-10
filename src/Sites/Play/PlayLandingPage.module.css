@@ -14,9 +14,10 @@
   overflow-y: auto;
   overflow-x: hidden;
   align-items: center;
-  padding-top: 2rem;
+  padding: 2rem 0;
   flex-grow: 1;
   box-sizing: border-box;
+  gap: 2rem;
 }
 
 .uselessWrapperThatIsNeededBecauseOfKey {

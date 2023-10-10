@@ -6,6 +6,7 @@ import Button from "../../../Components/Button";
 import BgImage from "../Graphics/BgImage.svg";
 import toast from "react-hot-toast";
 import { useRef } from "react";
+import { motion } from "framer-motion";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -66,7 +67,12 @@ export default function Register() {
   const termsRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className={classes.main}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.5 } }}
+      className={classes.main}
+    >
       <Link to="/" className={classes.return}>
         <ArrowLeft />
         Back
@@ -95,6 +101,6 @@ export default function Register() {
           GOT an account Already? <Link to="/login">Login!</Link>
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 }

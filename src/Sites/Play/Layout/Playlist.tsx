@@ -2,8 +2,12 @@ import classes from "./Playlist.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ArrowLeft, PlayFill } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
+import formatDate from "../../../lib/formatDate";
+import getUserObject from "../../../lib/getUser";
 
 interface playlist {
+  id: number;
   name: string;
   image: string;
   difficulty: string;
@@ -15,12 +19,14 @@ interface playlist {
 }
 
 interface challenge {
-  id: string;
+  id: number;
   name: string;
-  image: string;
+  challangeImageUrl: string;
+  challengeInPlaylistId: number;
 }
 
 export default function Playlist({
+  id,
   name,
   image,
   difficulty,
@@ -35,13 +41,15 @@ export default function Playlist({
   return (
     <>
       <h3 className={classes.addComment}>{additionalComment || ""}</h3>
-      {!isUserChoosing && (
+      {!isUserChoosing ? (
         <AnimatePresence>
           <motion.div
-            key={Math.random()}
+            key={id}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.75 } }}
-            exit={{ opacity: 0, transition: { duration: 0.75 } }}
+            animate={{
+              opacity: 1,
+              transition: { duration: 0.5 },
+            }}
             className={classes.playlist}
           >
             <img
@@ -50,20 +58,22 @@ export default function Playlist({
               className={classes.image}
             />
             <div className={classes.hero}>
-              <h3>{name}</h3>
+              <h3>
+                <Link to={`/playlist/${id}`}>{name}</Link>
+              </h3>
               <div className={classes.lineHorizontal} />
               <div className={classes.addData}>
                 <span>{author}</span>
                 <div className={classes.line} />
                 <span
-                  className={`${classes.difficulty} ${
-                    difficulty === "Rookie" && classes.rookie
+                  className={`${classes[difficulty.toLowerCase()]} ${
+                    classes.difficulty
                   }`}
                 >
-                  {difficulty}
+                  {difficulty.replace("_", " ")}
                 </span>
                 <div className={classes.line} />
-                <span>{publishDate}</span>
+                <span>{formatDate(publishDate)}</span>
               </div>
               <p className={classes.description}>{description}</p>
             </div>
@@ -77,36 +87,38 @@ export default function Playlist({
             </div>
           </motion.div>
         </AnimatePresence>
-      )}
-      {isUserChoosing && (
+      ) : (
         <AnimatePresence>
-          <motion.div
-            key={Math.random()}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.75 } }}
-            exit={{ opacity: 0, transition: { duration: 0.75 } }}
-            className={classes.playlistVertical}
-          >
-            <ArrowLeft
-              className={classes.arrowBack}
-              onClick={() => {
-                setIsUserChoosing(false);
-              }}
-            />
+          <div key={id} className={classes.playlistVertical}>
+            <span>
+              <ArrowLeft
+                className={classes.arrowBack}
+                onClick={() => {
+                  setIsUserChoosing(false);
+                }}
+              />
+              <p>Choose the challenge!</p>
+            </span>
             <div className={classes.challenges}>
-              {challenges.map((challenge) => {
+              {challenges ? challenges.map((challenge) => {
+                let linkToPlay = `/play/${id}/${challenge.challengeInPlaylistId}`;
+                if (!(getUserObject().id + 1)) {
+                  linkToPlay = "/login";
+                }
                 return (
-                  <img
-                    src={challenge.image}
-                    key={challenge.id}
-                    alt={`${challenge.name}'s image`}
-                    title={challenge.name}
-                    className={classes.imageSmall}
-                  />
+                  <Link to={linkToPlay} key={challenge.id}>
+                    <img
+                      src={challenge.challangeImageUrl}
+                      key={challenge.id}
+                      alt={`${challenge.name}'s image`}
+                      title={challenge.name}
+                      className={classes.imageSmall}
+                    />
+                  </Link>
                 );
-              })}
+              }) : <p>We're sorry! No challenges found!</p>}
             </div>
-          </motion.div>
+          </div>
         </AnimatePresence>
       )}
     </>

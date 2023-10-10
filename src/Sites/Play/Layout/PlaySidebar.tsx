@@ -86,9 +86,9 @@ export default function PlaySidebar(props: {setDifficulty: any, setSortBy: any})
             >
               <option value="All">All</option>
               <option value="Rookie">Rookie</option>
-              <option value="Intermidiate">Intermidiate</option>
+              <option value="Intermediate">Intermidiate</option>
               <option value="Hard">Hard</option>
-              <option value="CSS-MASTER">CSS-MASTER</option>
+              <option value="CSS_MASTER">CSS MASTER</option>
             </select>
           </div>
         </div>

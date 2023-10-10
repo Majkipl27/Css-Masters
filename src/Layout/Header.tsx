@@ -2,14 +2,14 @@ import { Link, Outlet, NavLink } from "react-router-dom";
 import Logo from "../Graphics/Logo.svg";
 import classes from "./Header.module.css";
 import Button from "../Components/Button";
-import { useAtom, useAtomValue } from "jotai/react";
+import { useAtom } from "jotai/react";
 import { userAtom } from "../Atoms";
 import { DoorOpenFill } from "react-bootstrap-icons";
 import { toast } from "react-hot-toast";
 import { useEffect } from "react";
 import getUserObject from "../lib/getUser";
 import SearchBar from "../Components/SearchBar";
-import Avatar from "../Components/AvatarComponent";
+import AvatarComponent from "../Components/AvatarComponent";
 
 export default function Header() {
   const [user, setUser] = useAtom(userAtom);
@@ -76,10 +76,10 @@ export default function Header() {
                     : classes.profile
                 }
               >
-                <Avatar
+                <AvatarComponent
                   userId={user.id}
                   userNameForAvatar={userNameForAvatarGenerating}
-                  size="small"
+                  size="verySmall"
                 />
                 <p>{user.username}</p>
               </NavLink>

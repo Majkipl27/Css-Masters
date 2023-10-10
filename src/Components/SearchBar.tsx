@@ -94,7 +94,7 @@ export default function SearchBar() {
                 <Avatar
                   userId={result.id}
                   userNameForAvatar={userNameForAvatarGenerating}
-                  size="small"
+                  size="verySmall"
                 />
                 {result.username}
               </Link>

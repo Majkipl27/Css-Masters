@@ -7,6 +7,7 @@ import BgImage from "../Graphics/BgImage.svg";
 import { useRef } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function Login() {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -45,7 +46,12 @@ export default function Login() {
   }
 
   return (
-    <div className={classes.main}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.5 } }}
+      className={classes.main}
+    >
       <Link to="/" className={classes.return}>
         <ArrowLeft />
         Back
@@ -62,6 +68,6 @@ export default function Login() {
         </p>
       </div>
       <img src={BgImage} alt="" />
-    </div>
+    </motion.div>
   );
 }

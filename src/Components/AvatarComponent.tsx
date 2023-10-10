@@ -2,7 +2,12 @@ import { useState, useCallback, useEffect } from "react";
 import { ColorRing } from "react-loader-spinner";
 import Avatar from "react-avatar";
 
-const AvatarComponent = (props: { userId: number; className?: any; userNameForAvatar: string; size?: "small" | "medium" | "big"}) => {
+const AvatarComponent = (props: {
+  userId: number;
+  className?: any;
+  userNameForAvatar: string;
+  size?: "verySmall" | "small" | "medium" | "big";
+}) => {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -10,15 +15,19 @@ const AvatarComponent = (props: { userId: number; className?: any; userNameForAv
     <ColorRing
       visible={true}
       width={
-        props.size === "small"
+        props.size === "verySmall"
           ? "1.5rem"
+          : props.size === "small"
+          ? "3rem"
           : props.size === "medium"
           ? "8rem"
           : "12rem"
       }
       height={
-        props.size === "small"
+        props.size === "verySmall"
           ? "1.5rem"
+          : props.size === "small"
+          ? "3rem"
           : props.size === "medium"
           ? "8rem"
           : "12rem"
@@ -58,11 +67,44 @@ const AvatarComponent = (props: { userId: number; className?: any; userNameForAv
       {isLoading ? (
         <AvatarSpinner />
       ) : avatarUrl ? (
-        <img className={props.className} src={avatarUrl} alt="User's avatar" />
+        <img
+          className={props.className}
+          style={{
+            width:
+              props.size === "verySmall"
+                ? "1.5rem"
+                : props.size === "small"
+                ? "3rem"
+                : props.size === "medium"
+                ? "8rem"
+                : "12rem",
+
+            height:
+              props.size === "verySmall"
+                ? "1.5rem"
+                : props.size === "small"
+                ? "3rem"
+                : props.size === "medium"
+                ? "8rem"
+                : "12rem",
+
+            borderRadius: "50%",
+          }}
+          src={avatarUrl}
+          alt="User's avatar"
+        />
       ) : (
         <Avatar
           name={props.userNameForAvatar}
-          size={props.size === "small" ? "1.5rem" : props.size === "medium" ? "8rem" : "12rem"}
+          size={
+            props.size === "verySmall"
+              ? "1.5rem"
+              : props.size === "small"
+              ? "3rem"
+              : props.size === "medium"
+              ? "8rem"
+              : "12rem"
+          }
           round={true}
         />
       )}

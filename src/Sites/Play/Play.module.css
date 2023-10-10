@@ -1,0 +1,252 @@
+.main {
+    display: flex;
+    align-items: center;
+    height: calc(100vh - 96px);
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.editors, .controls {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+}
+
+.controls {
+    gap: 1rem;
+    padding: 1rem;
+    align-items: center;
+}
+
+.editors {
+    box-sizing: border-box;
+    border: .5rem solid var(--bg-lght);
+    border-radius: .5rem;
+}
+
+.lang {
+    display: flex;
+    align-items: center;
+    color: var(--font-clr);
+    font-size: 1.5rem;
+    background-color: var(--bg-lght);
+    gap: 1rem;
+    font-family: "Quantico", sans-serif;
+}
+
+.lang img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.editor {
+    flex: 1;
+    height: 100%;
+    background-color: var(--bg-lght);
+    overflow-y: auto;
+    font-size: 1.25rem;
+}
+
+.iframeCont {
+    position: relative;
+}
+
+.iframeCont iframe {
+    width: 400px;
+    height: 300px;
+    border: none;
+    background-color: var(--bg-lght);
+    border-radius: .75rem;
+}
+
+.imageSliderImg {
+    object-fit: cover;
+    border-radius: .75rem;
+}
+
+.imageSlider {
+    width: 400px;
+    height: 300px;
+    --divider-width: 4px;
+    --divider-color: #ffa658;
+    --default-handle-opacity: 0;
+    overflow: hidden;
+    border-radius: .75rem;
+}
+
+
+.pattern {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 2rem;
+}
+
+.pattern img {
+    width: 400px;
+    height: 300px;
+    border-radius: .75rem;
+    object-fit: cover;
+}
+
+.pattern p {
+    font-size: 1.75rem;
+    color: var(--font-alt);
+    font-family: "Quantico", sans-serif;
+    text-align: center;
+    text-shadow: 0px 2px 0px rgba(173, 181, 189, 0.4);
+}
+
+.colors {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.color {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-transform: uppercase;
+    font-size: 2rem;
+    cursor: pointer;
+    font-family: "Quantico", sans-serif;
+}
+
+.color > div {
+    border-radius: 50px;
+    width: 2rem;
+    height: 2rem;
+}
+
+.helper {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--font-alt);
+    font-family: "Quantico", sans-serif;
+}
+
+.line {
+    width: 80%;
+    height: .25rem;
+    border-radius: .5rem;
+    background-color: var(--dark-clr);
+}
+
+.bottomFlex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+    padding: 0 2rem;
+    box-sizing: border-box;
+}
+
+.bottomFlex > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 50%;
+}
+
+.bottomFlex > div > p {
+    font-size: 1.5rem;
+    color: var(--font-alt);
+    font-family: "Quantico", sans-serif;
+    text-align: center;
+}
+
+.scores {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+}
+
+.score {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    color: var(--font-alt);
+    font-family: Roboto Slab;
+    text-decoration: none;
+    padding-left: 2rem;
+}
+
+.score span {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.noScores {
+    font-size: 1.5rem;
+    color: var(--font-alt);
+    font-family: "Quantico", sans-serif;
+    text-align: center;
+}
+
+.score > span > p:hover {
+    text-decoration: underline;
+}
+
+.info {
+    font-size: 1.5rem;
+    color: var(--font-alt);
+    font-family: "Quantico", sans-serif;
+    cursor: pointer;
+}
+
+.info:hover {
+    text-decoration: underline;
+}
+
+.playerStats .helper {
+    font-size: 1rem;
+}
+
+.lineVertical {
+    width: .125rem !important;
+    height: 100%;
+    border-radius: .5rem;
+    background-color: var(--dark-clr);
+}
+
+.backdrop {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99995;
+    background-color: #00000040;
+}
+
+.modal {
+    width: 30vw;
+    position: absolute;
+    z-index: 999995;
+    left: 35vw;
+    padding: 3rem;
+    box-sizing: border-box;
+    top: 30vh;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-radius: .5rem;
+    background-color: var(--bg-lght);
+}
+
+.modal p {
+    font-size: 1.5rem;
+    color: var(--font-alt);
+    font-family: "Quantico", sans-serif;
+    text-align: center;
+}

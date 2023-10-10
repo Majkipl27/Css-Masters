@@ -7,7 +7,9 @@ import ToasterComponent from "./Components/Toaster";
 import Profile from "./Sites/Profile/Profile";
 import Settings from "./Sites/Settings/Settings";
 import PlayLandingPage from "./Sites/Play/PlayLandingPage";
+import PlaylistLandingPage from "./Sites/Play/Sites/PlaylistLandingPage";
 import { cloneElement } from "react";
+import Play from "./Sites/Play/Play";
 import { AnimatePresence } from "framer-motion";
 
 export default function App() {
@@ -25,6 +27,14 @@ export default function App() {
         {
           path: "/play",
           element: <PlayLandingPage />,
+        },
+        {
+          path: "/play/:playlistId/:challengeId",
+          element: <Play />,
+        },
+        {
+          path: "/playlist/:playlistId",
+          element: <PlaylistLandingPage />,
         },
         {
           path: "/leaderboards",
