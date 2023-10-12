@@ -109,7 +109,7 @@ export default function Play() {
 
   const getBestScores = async () => {
     const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/play/topScores/${playlistId}/${challengeId}`,
+      `${import.meta.env.VITE_REACT_APP_API_URL}/play/topScores/${playlistId}/${challengeId}`,
       {
         credentials: "include",
         method: "GET",
@@ -124,7 +124,7 @@ export default function Play() {
 
   const getUserBestScore = async () => {
     const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/play/bestUserScore/${playlistId}/${challengeId}`,
+      `${import.meta.env.VITE_REACT_APP_API_URL}/play/bestUserScore/${playlistId}/${challengeId}`,
       {
         credentials: "include",
         method: "GET",
@@ -144,7 +144,7 @@ export default function Play() {
 
   const getChallangeData = async () => {
     const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/play/${playlistId}/${challengeId}`,
+      `${import.meta.env.VITE_REACT_APP_API_URL}/play/${playlistId}/${challengeId}`,
       {
         credentials: "include",
         method: "GET",
@@ -168,7 +168,7 @@ export default function Play() {
   }, []);
 
   const submitHandler = async () => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/play/submit`, {
+    const res = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/play/submit`, {
       credentials: "include",
       method: "POST",
       headers: {

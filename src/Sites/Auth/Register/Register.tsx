@@ -35,7 +35,7 @@ export default function Register() {
       return;
     }
     
-      fetch(`${process.env.REACT_APP_API_URL}/auth/register`, 
+      fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/register`, 
         {
           method: "POST",
           headers: {

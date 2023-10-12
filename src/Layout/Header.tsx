@@ -19,7 +19,7 @@ export default function Header() {
   }, []);
 
   function logout() {
-    fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/logout`, {
       method: "POST",
       credentials: "include",
     })

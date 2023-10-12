@@ -25,7 +25,7 @@ export default function SearchBar() {
       return;
     }
     await fetch(
-      `${process.env.REACT_APP_API_URL}/search?search=${searchInputRef.current?.value}`,
+      `${import.meta.env.VITE_REACT_APP_API_URL}/search?search=${searchInputRef.current?.value}`,
       {
         method: "GET",
         credentials: "include",

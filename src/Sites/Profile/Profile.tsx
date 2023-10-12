@@ -42,7 +42,7 @@ export default function Profile() {
   useEffect(() => {
     async function getPublicInfo() {
       try {
-        await fetch(`${process.env.REACT_APP_API_URL}/user/${+(id || 0)}`, {
+        await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/${+(id || 0)}`, {
           method: "GET",
           credentials: "include",
           headers: {
@@ -63,7 +63,7 @@ export default function Profile() {
     }
 
     const getBannerUrl = async (): Promise<void> => {
-      fetch(`${process.env.REACT_APP_API_URL}/user/settings/banner/${id}`, {
+      fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/banner/${id}`, {
         credentials: "include",
         method: "GET",
       })

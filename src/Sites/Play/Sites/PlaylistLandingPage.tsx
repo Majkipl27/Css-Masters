@@ -31,7 +31,7 @@ export default function PlaylistLandingPage() {
 
   const fetchPlaylists = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/play/playlists/${params.playlistId}`,
+      `${import.meta.env.VITE_REACT_APP_API_URL}/play/playlists/${params.playlistId}`,
       {
         method: "GET",
         credentials: "include",

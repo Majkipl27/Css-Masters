@@ -20,7 +20,7 @@ export default function Login() {
       return;
     }
 
-    await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, 
+    await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/login`, 
       {
         method: "POST",
         headers: {

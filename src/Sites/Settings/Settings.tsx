@@ -61,7 +61,7 @@ export default function Settings() {
   useEffect(() => {
     async function getPublicInfo() {
       try {
-        await fetch(`${process.env.REACT_APP_API_URL}/user/${id}`, {
+        await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/${id}`, {
           method: "GET",
           credentials: "include",
           headers: {
@@ -85,7 +85,7 @@ export default function Settings() {
     }
 
     const getBannerUrl = async (): Promise<void> => {
-      fetch(`${process.env.REACT_APP_API_URL}/user/settings/banner/${id}`, {
+      fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/banner/${id}`, {
         credentials: "include",
         method: "GET",
       })
@@ -254,7 +254,7 @@ export default function Settings() {
       correctFormdata.append(key, newObject[key]);
     }
 
-    fetch(`${process.env.REACT_APP_API_URL}/user/settings/`, {
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/`, {
       method: "PATCH",
       body: correctFormdata,
       credentials: "include",

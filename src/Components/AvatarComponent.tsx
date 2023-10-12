@@ -41,7 +41,7 @@ const AvatarComponent = (props: {
 
   const getAvatarUrl = useCallback(async (): Promise<void> => {
     fetch(
-      `${process.env.REACT_APP_API_URL}/user/settings/avatar/${props.userId}`,
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/avatar/${props.userId}`,
       {
         credentials: "include",
         method: "GET",
