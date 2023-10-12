@@ -122,6 +122,26 @@ export default function Play() {
     setBestScores(data);
   };
 
+  const getUserBestScore = async () => {
+    const res = await fetch(
+      `${process.env.REACT_APP_API_URL}/play/bestUserScore/${playlistId}/${challengeId}`,
+      {
+        credentials: "include",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data)
+    if (data[0].code) {
+      let splittedData = data[0].code.split("</style>");
+      setCssCode(splittedData[0]);
+      setHtmlCode(splittedData[1]);
+    }
+  };
+
   const getChallangeData = async () => {
     const res = await fetch(
       `${process.env.REACT_APP_API_URL}/play/${playlistId}/${challengeId}`,
@@ -142,6 +162,7 @@ export default function Play() {
       navigate("/login");
       return;
     }
+    getUserBestScore();
     getBestScores();
     getChallangeData();
   }, []);
@@ -178,10 +199,18 @@ export default function Play() {
       <div className={classes.modal}>
         <p>How do we count points?</p>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum alias
-          eos, consequatur dolores ea velit iure nesciunt obcaecati laboriosam
-          dolor.
+          1. Every playlist, depending on difficulty, has a number of starting
+          points (eg. Rookie diff - 500 points)
         </p>
+        <p>
+          2. We get rid of white chars, and count the length of your code, for
+          each character, you lose 0.1 point
+        </p>
+        <p>
+          3. For every percent which does not follow the pattern, we take 10
+          points
+        </p>
+        <p>Minimum number of points is 0</p>
         <Button
           type="alt"
           onClick={() => {
@@ -351,7 +380,7 @@ export default function Play() {
               <p>Your best score: [best score]</p>
             )}
             <p className={classes.helper}>
-              You can submit many times, we'll holding your top 5 scores :D
+              You can submit many times, we'll holding your best score :D
             </p>
             <Button type="default" onClick={submitHandler}>
               Submit

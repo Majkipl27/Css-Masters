@@ -41,6 +41,7 @@ export default function Playlist({
   return (
     <>
       <h3 className={classes.addComment}>{additionalComment || ""}</h3>
+
       {!isUserChoosing ? (
         <AnimatePresence>
           <motion.div
@@ -48,8 +49,9 @@ export default function Playlist({
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
-              transition: { duration: 0.5 },
+              transition: { duration: 0.25 },
             }}
+            exit={{ opacity: 0, transition: { duration: 0.5 } }}
             className={classes.playlist}
           >
             <img
@@ -89,7 +91,16 @@ export default function Playlist({
         </AnimatePresence>
       ) : (
         <AnimatePresence>
-          <div key={id} className={classes.playlistVertical}>
+          <motion.div
+            key={id}
+            className={classes.playlistVertical}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              transition: { duration: 0.25 },
+            }}
+            exit={{ opacity: 0, transition: { duration: 0.5 } }}
+          >
             <span>
               <ArrowLeft
                 className={classes.arrowBack}
@@ -100,25 +111,29 @@ export default function Playlist({
               <p>Choose the challenge!</p>
             </span>
             <div className={classes.challenges}>
-              {challenges ? challenges.map((challenge) => {
-                let linkToPlay = `/play/${id}/${challenge.challengeInPlaylistId}`;
-                if (!(getUserObject().id + 1)) {
-                  linkToPlay = "/login";
-                }
-                return (
-                  <Link to={linkToPlay} key={challenge.id}>
-                    <img
-                      src={challenge.challangeImageUrl}
-                      key={challenge.id}
-                      alt={`${challenge.name}'s image`}
-                      title={challenge.name}
-                      className={classes.imageSmall}
-                    />
-                  </Link>
-                );
-              }) : <p>We're sorry! No challenges found!</p>}
+              {challenges ? (
+                challenges.map((challenge) => {
+                  let linkToPlay = `/play/${id}/${challenge.challengeInPlaylistId}`;
+                  if (!(getUserObject().id + 1)) {
+                    linkToPlay = "/login";
+                  }
+                  return (
+                    <Link to={linkToPlay} key={challenge.id}>
+                      <img
+                        src={challenge.challangeImageUrl}
+                        key={challenge.id}
+                        alt={`${challenge.name}'s image`}
+                        title={challenge.name}
+                        className={classes.imageSmall}
+                      />
+                    </Link>
+                  );
+                })
+              ) : (
+                <p>We're sorry! No challenges found!</p>
+              )}
             </div>
-          </div>
+          </motion.div>
         </AnimatePresence>
       )}
     </>

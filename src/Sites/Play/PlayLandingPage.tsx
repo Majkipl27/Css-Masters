@@ -22,12 +22,35 @@ interface challenge {
   challangeImageUrl: string;
   challengeInPlaylistId: number;
 }
+interface gameType {
+  id: number;
+  name: string;
+  isActive: boolean;
+}
 
 export default function PlayLandingPage() {
   const [difficulty, setDifficulty] = useState<string>("all");
   const [sortBy, setSortBy] = useState<"newest" | "oldest">("newest");
   const [playlists, setPlaylists] = useState<playlist[]>([]);
   const [filteredPlaylists, setFilteredPlaylists] = useState<playlist[]>([]);
+  const [gamesTypes, setGamesTypes] = useState<Array<gameType>>([
+    {
+      id: 1,
+      name: "Official",
+      isActive: true,
+    },
+    {
+      id: 2,
+      name: "Community",
+      isActive: false,
+    },
+    {
+      id: 3,
+      name: "Learn",
+      isActive: false,
+    },
+  ]);
+  const [isComingSoon, setIsComingSoon] = useState<boolean>(false);
 
   const fetchPlaylists = async () => {
     const response = await fetch(
@@ -69,7 +92,15 @@ export default function PlayLandingPage() {
         }
       })
     );
-  }, [difficulty, sortBy]);
+
+    gamesTypes.forEach((gameType) => {
+      if (gameType.isActive === true) {
+        if (gameType.name === "Official") {
+          setIsComingSoon(false);
+        } else setIsComingSoon(true);
+      }
+    });
+  }, [difficulty, sortBy, gamesTypes]);
 
   return (
     <motion.div
@@ -78,28 +109,43 @@ export default function PlayLandingPage() {
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
       className={classes.main}
     >
-      <PlaySidebar setDifficulty={setDifficulty} setSortBy={setSortBy} />
+      <PlaySidebar
+        setDifficulty={setDifficulty}
+        setSortBy={setSortBy}
+        setGamesTypes={setGamesTypes}
+        gamesTypes={gamesTypes}
+      />
       <div className={classes.playlists}>
-        {filteredPlaylists ? filteredPlaylists.map((playlist) => {
-          return (
-            <div
-              key={playlist.id}
-              className={classes.uselessWrapperThatIsNeededBecauseOfKey}
-            >
-              <Playlist
-                id={+playlist.id}
-                name={playlist.name}
-                image={playlist.image}
-                difficulty={playlist.difficulty}
-                description={playlist.description}
-                additionalComment={playlist.additionalComment}
-                publishDate={playlist.updatedAt}
-                author={playlist.author}
-                challenges={playlist.Challenges}
-              />
-            </div>
-          );
-        }) : <p>We found no playlist that matches your criteria!</p>}
+        {isComingSoon ? (
+          <p className={classes.noData}>
+            Coming Soon!
+          </p>
+        ) : filteredPlaylists.length > 0 ? (
+          filteredPlaylists.map((playlist) => {
+            return (
+              <div
+                key={playlist.id}
+                className={classes.uselessWrapperThatIsNeededBecauseOfKey}
+              >
+                <Playlist
+                  id={+playlist.id}
+                  name={playlist.name}
+                  image={playlist.image}
+                  difficulty={playlist.difficulty}
+                  description={playlist.description}
+                  additionalComment={playlist.additionalComment}
+                  publishDate={playlist.updatedAt}
+                  author={playlist.author}
+                  challenges={playlist.Challenges}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <p className={classes.noData}>
+            We found no playlist that matches your criteria!
+          </p>
+        )}
       </div>
     </motion.div>
   );

@@ -1,36 +1,16 @@
 import { useState } from "react";
 import classes from "./PlaySidebar.module.css";
 
-interface gameType {
-  id: number;
-  name: string;
-  isActive: boolean;
-}
 
-export default function PlaySidebar(props: {setDifficulty: any, setSortBy: any}) {
-  const [gamesTypes, setGamesTypes] = useState<Array<gameType>>([
-    {
-      id: 1,
-      name: "Official",
-      isActive: true,
-    },
-    {
-      id: 2,
-      name: "Community",
-      isActive: false,
-    },
-    {
-      id: 3,
-      name: "Learn",
-      isActive: false,
-    },
-  ]);
+
+export default function PlaySidebar(props: {setDifficulty: any, setSortBy: any, gamesTypes: any; setGamesTypes: any;}) {
+  
 
   const [isShown, setIsShown] = useState<boolean>(true);
 
   const setActive = (id: number) => {
-    setGamesTypes(
-      gamesTypes.map((gameType) => {
+    props.setGamesTypes(
+      props.gamesTypes.map((gameType: any) => {
         if (gameType.id === id) {
           gameType.isActive = true;
         } else {
@@ -61,7 +41,7 @@ export default function PlaySidebar(props: {setDifficulty: any, setSortBy: any})
         }}
       >
         <div className={classes.gamesTypes}>
-          {gamesTypes.map((gameType) => {
+          {props.gamesTypes.map((gameType: any) => {
             return (
               <div
                 key={gameType.id}
