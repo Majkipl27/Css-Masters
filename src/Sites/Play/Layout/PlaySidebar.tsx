@@ -28,7 +28,7 @@ export default function PlaySidebar(props: {setDifficulty: any, setSortBy: any, 
         onClick={() => {
           setIsShown(!isShown);
         }}
-        style={{ left: isShown ? "15%" : "0" }}
+        style={{ left: isShown ? "261px" : "0" }}
       >
         Hide/Show
       </p>
@@ -37,7 +37,7 @@ export default function PlaySidebar(props: {setDifficulty: any, setSortBy: any, 
         style={{
           transform: isShown ? "translateX(0%)" : "translateX(-100%)",
           transformOrigin: "left",
-          width: isShown ? "15%" : "0",
+          width: isShown ? "261px" : "0",
         }}
       >
         <div className={classes.gamesTypes}>

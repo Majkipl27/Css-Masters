@@ -11,6 +11,8 @@ import PlaylistLandingPage from "./Sites/Play/Sites/PlaylistLandingPage";
 import { cloneElement } from "react";
 import Play from "./Sites/Play/Play";
 import { AnimatePresence } from "framer-motion";
+import { isMobile } from "react-device-detect";
+import Logo from "./Graphics/Logo.svg";
 
 export default function App() {
   const element = useRoutes([
@@ -57,7 +59,15 @@ export default function App() {
 
   if (!element) return null;
 
-  return (
+  return isMobile ? (
+    <div className="noMobile">
+      <h1>
+        This app is not available on mobile devices. Sorry for the inconvenience
+      </h1>
+      <img src={Logo} alt="css masters logo" />
+      <h2>Css Masters Team</h2>
+    </div>
+  ) : (
     <>
       <ToasterComponent />
       <AnimatePresence mode="wait">

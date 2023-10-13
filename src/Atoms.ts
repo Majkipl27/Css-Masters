@@ -1,4 +1,7 @@
 import { atom } from "jotai";
 import getUserObject from "./lib/getUser";
 
-export const userAtom = atom(getUserObject());
+const userAtom = atom(getUserObject());
+const headerHeightAtom = atom<number>(0);
+
+export { userAtom, headerHeightAtom };

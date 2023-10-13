@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AvatarComponent from "../../Components/AvatarComponent";
 import { useAtomValue } from "jotai";
-import { userAtom } from "../../Atoms";
+import { headerHeightAtom, userAtom } from "../../Atoms";
 import { motion } from "framer-motion";
 
 interface userData {
@@ -38,8 +38,16 @@ export default function Profile() {
   const [bannerUrl, setBannerUrl] = useState<string>("");
   const navigate = useNavigate();
   const user = useAtomValue(userAtom);
+  const headerHeight = useAtomValue(headerHeightAtom);
+  const [vievportWidth, setVievportWidth] = useState<number>(0);
 
   useEffect(() => {
+    setVievportWidth(window.innerWidth);
+    
+    window.addEventListener("resize", () => {
+      setVievportWidth(window.innerWidth);
+    });
+
     async function getPublicInfo() {
       try {
         await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/${+(id || 0)}`, {
@@ -97,6 +105,7 @@ export default function Profile() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
+      style={{ height: `calc(100% - ${headerHeight}px)` }}
     >
       <div
         className={classes.avatarSection}
@@ -112,7 +121,7 @@ export default function Profile() {
           userId={+(id || -1)}
           className={classes.avatar}
           userNameForAvatar={userNameForAvatarGenerating}
-          size="big"
+          size={vievportWidth > 1400 ? "big" : "medium"}
         />
         <h2>
           {userData?.username} {userNamingInfo}

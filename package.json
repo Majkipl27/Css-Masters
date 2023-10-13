@@ -25,6 +25,7 @@
     "react-avatar": "^5.0.3",
     "react-avatar-editor": "^13.0.0",
     "react-bootstrap-icons": "^1.10.3",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-loader-spinner": "^5.4.5",

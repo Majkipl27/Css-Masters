@@ -28,3 +28,25 @@ h1, h2, p, h3 {
 .cm-content {
   padding: 0 !important;
 }
+
+.noMobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.noMobile > h1, .noMobile > h2 {
+  font-size: 2rem;
+  color: var(--font-alt);
+  font-family: "Quantico", sans-serif;
+  text-align: center;
+  text-shadow: 0px 2px 0px rgba(173, 181, 189, 0.4);
+  padding: 2rem;
+}
+
+.noMobile > img {
+  width: 60%;
+  max-width: 300px;
+}

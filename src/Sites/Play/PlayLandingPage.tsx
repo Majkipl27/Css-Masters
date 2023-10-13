@@ -2,6 +2,8 @@ import PlaySidebar from "./Layout/PlaySidebar";
 import { motion } from "framer-motion";
 import classes from "./PlayLandingPage.module.css";
 import { useState, useEffect } from "react";
+import { useAtomValue } from "jotai";
+import { headerHeightAtom } from "../../Atoms";
 import Playlist from "./Layout/Playlist";
 
 interface playlist {
@@ -51,6 +53,7 @@ export default function PlayLandingPage() {
     },
   ]);
   const [isComingSoon, setIsComingSoon] = useState<boolean>(false);
+  const headerHeight = useAtomValue(headerHeightAtom);
 
   const fetchPlaylists = async () => {
     const response = await fetch(
@@ -108,6 +111,7 @@ export default function PlayLandingPage() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
       className={classes.main}
+      style={{height: `calc(100% - ${headerHeight}px)`}}
     >
       <PlaySidebar
         setDifficulty={setDifficulty}

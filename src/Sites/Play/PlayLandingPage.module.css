@@ -24,7 +24,6 @@
   display: flex;
   flex-direction: column;
   width: 60%;
-  position: relative;
 }
 
 .noData {
@@ -33,4 +32,10 @@
   font-family: "Quantico", sans-serif;
   text-align: center;
   text-shadow: 0px 2px 0px rgba(173, 181, 189, 0.4);
+}
+
+@media screen and (max-width: 1700px) {
+  .uselessWrapperThatIsNeededBecauseOfKey {
+    width: 80%;
+  }
 }

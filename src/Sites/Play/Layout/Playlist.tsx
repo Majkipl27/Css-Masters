@@ -78,14 +78,14 @@ export default function Playlist({
                 <span>{formatDate(publishDate)}</span>
               </div>
               <p className={classes.description}>{description}</p>
-            </div>
-            <div
-              className={classes.play}
-              onClick={() => {
-                setIsUserChoosing(true);
-              }}
-            >
-              <PlayFill />
+              <div
+                className={classes.play}
+                onClick={() => {
+                  setIsUserChoosing(true);
+                }}
+              >
+                PLAY <PlayFill />
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>

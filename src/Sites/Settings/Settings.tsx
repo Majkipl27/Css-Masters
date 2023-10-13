@@ -2,7 +2,7 @@ import classes from "./Settings.module.css";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { useAtomValue } from "jotai";
-import { userAtom } from "../../Atoms";
+import { headerHeightAtom, userAtom } from "../../Atoms";
 import { useEffect, useState, useRef } from "react";
 import AvatarComponent from "../../Components/AvatarComponent";
 import { useNavigate } from "react-router-dom";
@@ -43,7 +43,6 @@ export default function Settings() {
   const navigate = useNavigate();
   const user = useAtomValue(userAtom);
   const { id } = user;
-  if (!id) navigate("login");
   const [userData, setUserData] = useState<userData>();
   const [bannerUrl, setBannerUrl] = useState<string>("");
   const [avatarUrl, setAvatarUrl] = useState<string>("");
@@ -59,6 +58,10 @@ export default function Settings() {
   const bannerInputRef = useRef<any>(null);
 
   useEffect(() => {
+    if (!(id + 1)) {
+      navigate("/login");
+      return;
+    }
     async function getPublicInfo() {
       try {
         await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/${id}`, {
@@ -78,17 +81,19 @@ export default function Settings() {
             }
           });
       } catch (error) {
-        console.error(error);
         toast.error("Failed to load user data!");
         navigate(`/profile/${id}`);
       }
     }
 
     const getBannerUrl = async (): Promise<void> => {
-      fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/banner/${id}`, {
-        credentials: "include",
-        method: "GET",
-      })
+      fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/banner/${id}`,
+        {
+          credentials: "include",
+          method: "GET",
+        }
+      )
         .then((res: Response) => {
           if (!res.ok || res.status === 204) throw new Error();
           return res.blob();

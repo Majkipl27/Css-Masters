@@ -3,14 +3,15 @@
     flex-direction: column;
     border-right: 2px solid var(--dark-clr);
     background-color: var(--bg-clr);
-    width: 15%;
+    width: 261px;
     height: 100%;
     box-sizing: border-box;
     padding: 1rem;
     gap: 2rem;
     transition: all 150ms ease-in-out;
     position: absolute;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     z-index: 10;
 }
 
@@ -40,9 +41,9 @@
 
 .gameTypeActive {
     border: 2px solid var(--add-blue);
-    filter: drop-shadow(0px 2px 0px rgba(36, 175, 193, 0.60));
+    box-shadow: 0 2px 0 rgba(36, 175, 193, 0.60);
     color: var(--add-blue);
-    text-shadow: 0px 2px 0px rgba(36, 175, 193, 0.40);
+    text-shadow: 0 2px 0 rgba(36, 175, 193, 0.40);
 }
 
 .line {
@@ -116,4 +117,11 @@ option {
     cursor: pointer;
     transition: all 150ms ease-in-out;
     z-index: 10;
+    text-shadow: 0 0 16px rgb(0, 0, 0);
+}
+
+@media screen and (max-width: 1700px) {
+    .gameType {
+        font-size: 1.5rem;
+    }
 }
