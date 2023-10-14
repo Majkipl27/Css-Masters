@@ -14,6 +14,8 @@ import toast from "react-hot-toast";
 import AvatarComponent from "../../Components/AvatarComponent";
 import Button from "../../Components/Button";
 import getUserObject from "../../lib/getUser";
+import "split-pane-react/esm/themes/default.css";
+import SplitPane, { Pane } from "split-pane-react";
 
 interface Challenge {
   id: number;
@@ -37,6 +39,7 @@ export default function Play() {
   const [bestScores, setBestScores] = useState<any[]>([]);
   const [dataAfterSubmission, setDataAfterSubmission] = useState<any>(null);
   const [challange, setChallange] = useState<Challenge>();
+  const [sizes, setSizes] = useState(["50%", "50%"]);
 
   const iframeRef = useRef<any>(null);
   const navigate = useNavigate();
@@ -109,7 +112,9 @@ export default function Play() {
 
   const getBestScores = async () => {
     const res = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/play/topScores/${playlistId}/${challengeId}`,
+      `${
+        import.meta.env.VITE_REACT_APP_API_URL
+      }/play/topScores/${playlistId}/${challengeId}`,
       {
         credentials: "include",
         method: "GET",
@@ -124,7 +129,9 @@ export default function Play() {
 
   const getUserBestScore = async () => {
     const res = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/play/bestUserScore/${playlistId}/${challengeId}`,
+      `${
+        import.meta.env.VITE_REACT_APP_API_URL
+      }/play/bestUserScore/${playlistId}/${challengeId}`,
       {
         credentials: "include",
         method: "GET",
@@ -134,7 +141,6 @@ export default function Play() {
       }
     );
     const data = await res.json();
-    console.log(data)
     if (data[0].code) {
       let splittedData = data[0].code.split("</style>");
       setCssCode(splittedData[0]);
@@ -144,7 +150,9 @@ export default function Play() {
 
   const getChallangeData = async () => {
     const res = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/play/${playlistId}/${challengeId}`,
+      `${
+        import.meta.env.VITE_REACT_APP_API_URL
+      }/play/${playlistId}/${challengeId}`,
       {
         credentials: "include",
         method: "GET",
@@ -168,18 +176,21 @@ export default function Play() {
   }, []);
 
   const submitHandler = async () => {
-    const res = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/play/submit`, {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        playlistId,
-        challengeId,
-        code: `${cssCode.trim()}</style>${htmlCode.trim()}`,
-      }),
-    });
+    const res = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/play/submit`,
+      {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          playlistId,
+          challengeId,
+          code: `${cssCode.trim()}</style>${htmlCode.trim()}`,
+        }),
+      }
+    );
     const data = await res.json();
     if (data.error) {
       toast.error(data.error);
@@ -232,40 +243,54 @@ export default function Play() {
     >
       {isModalOpen && modal}
       <div className={classes.editors}>
-        <div className={classes.lang}>
-          <img src={HtmlLogo} alt="Html logo" />
-          <p>Html</p>
-        </div>
-        <CodeMirror
-          className={classes.editor}
-          value={htmlCode}
-          theme={myTheme}
-          extensions={[
-            EditorView.lineWrapping,
-            html({
-              matchClosingTags: true,
-              selfClosingTags: true,
-            }),
-          ]}
-          minHeight="100%"
-          onChange={(e) => {
-            setHtmlCode(e);
-          }}
-        />
-        <div className={classes.lang}>
-          <img src={Logo} alt="Css logo" />
-          <p>Css</p>
-        </div>
-        <CodeMirror
-          className={classes.editor}
-          value={cssCode}
-          theme={myTheme}
-          extensions={[EditorView.lineWrapping, css()]}
-          onChange={(e) => {
-            setCssCode(e);
-          }}
-          minHeight="100%"
-        />
+        <p className={classes.smallText}>Drag these editors to your preferences</p>
+        <SplitPane
+          split="horizontal"
+          sizes={sizes}
+          onChange={(sizes: any) => setSizes(sizes)}
+          sashRender={(props: any) => (
+            <div className={classes.sash} {...props} />
+          )}
+        >
+          <Pane minSize={"35px"} maxSize="100%">
+            <div className={classes.lang}>
+              <img src={HtmlLogo} alt="Html logo" />
+              <p>Html</p>
+            </div>
+            <CodeMirror
+              className={classes.editor}
+              value={htmlCode}
+              theme={myTheme}
+              extensions={[
+                EditorView.lineWrapping,
+                html({
+                  matchClosingTags: true,
+                  selfClosingTags: true,
+                }),
+              ]}
+              minHeight="100%"
+              onChange={(e) => {
+                setHtmlCode(e);
+              }}
+            />
+          </Pane>
+          <Pane minSize={"35px"} maxSize="100%">
+            <div className={classes.lang}>
+              <img src={Logo} alt="Css logo" />
+              <p>Css</p>
+            </div>
+            <CodeMirror
+              className={classes.editor}
+              value={cssCode}
+              theme={myTheme}
+              extensions={[EditorView.lineWrapping, css()]}
+              onChange={(e) => {
+                setCssCode(e);
+              }}
+              minHeight="100%"
+            />
+          </Pane>
+        </SplitPane>
       </div>
       <div className={classes.controls}>
         <div className={classes.pattern}>

@@ -23,6 +23,7 @@
     box-sizing: border-box;
     border: .5rem solid var(--bg-lght);
     border-radius: .5rem;
+    position: relative;
 }
 
 .lang {
@@ -41,8 +42,7 @@
 }
 
 .editor {
-    flex: 1;
-    height: 100%;
+    height: calc(100% - 35px);
     background-color: var(--bg-lght);
     overflow-y: auto;
     font-size: 1.25rem;
@@ -249,4 +249,12 @@
     color: var(--font-alt);
     font-family: "Quantico", sans-serif;
     text-align: center;
+}
+
+.smallText {
+    font-size: .75rem;
+    position: absolute;
+    color: var(--font-alt);
+    font-family: "Quantico", sans-serif;
+    top: -30px;
 }
