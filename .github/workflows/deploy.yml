@@ -19,10 +19,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
 
     - name: Install frontend dependencies
-      run: npm install
+      run: pnpm i
     - name: Create .env
       run: echo "${{ secrets.ENV_PRODUCTION }}" > .env
     - name: Build
-      run: npm run build
+      run: pnpm build
