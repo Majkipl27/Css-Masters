@@ -22,5 +22,7 @@ jobs:
 
     - name: Install frontend dependencies
       run: npm install
+    - name: Create .env
+      run: echo "${{ secrets.ENV_PRODUCTION }}" > .env
     - name: Build
       run: npm run build
