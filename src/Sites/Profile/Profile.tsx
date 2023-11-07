@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AvatarComponent from "../../Components/AvatarComponent";
 import { useAtomValue } from "jotai";
-import { headerHeightAtom, userAtom } from "../../Atoms";
+import { userAtom } from "../../Atoms";
 import { motion } from "framer-motion";
 
 interface userData {
@@ -38,7 +38,6 @@ export default function Profile() {
   const [bannerUrl, setBannerUrl] = useState<string>("");
   const navigate = useNavigate();
   const user = useAtomValue(userAtom);
-  const headerHeight = useAtomValue(headerHeightAtom);
   const [vievportWidth, setVievportWidth] = useState<number>(0);
 
   useEffect(() => {
@@ -105,7 +104,6 @@ export default function Profile() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
-      style={{ height: `calc(100% - ${headerHeight}px)` }}
     >
       <div
         className={classes.avatarSection}

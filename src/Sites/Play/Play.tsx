@@ -40,6 +40,7 @@ export default function Play() {
   const [dataAfterSubmission, setDataAfterSubmission] = useState<any>(null);
   const [challange, setChallange] = useState<Challenge>();
   const [sizes, setSizes] = useState(["50%", "50%"]);
+  const [bestScore, setBestScore] = useState<number>();
 
   const iframeRef = useRef<any>(null);
   const navigate = useNavigate();
@@ -145,7 +146,8 @@ export default function Play() {
       let splittedData = data[0].code.split("</style>");
       setCssCode(splittedData[0]);
       setHtmlCode(splittedData[1]);
-    }
+      setBestScore(data[0].score);
+    } 
   };
 
   const getChallangeData = async () => {
@@ -402,7 +404,7 @@ export default function Play() {
                 </p>
               </>
             ) : (
-              <p>Your best score: [best score]</p>
+              bestScore ? <p>Your best score: {bestScore}</p> : <p>No score yet!</p>
             )}
             <p className={classes.helper}>
               You can submit many times, we'll holding your best score :D

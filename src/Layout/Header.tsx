@@ -2,8 +2,8 @@ import { Link, Outlet, NavLink } from "react-router-dom";
 import Logo from "../Graphics/Logo.svg";
 import classes from "./Header.module.css";
 import Button from "../Components/Button";
-import { useAtom, useSetAtom } from "jotai/react";
-import { userAtom, headerHeightAtom } from "../Atoms";
+import { useAtom } from "jotai/react";
+import { userAtom } from "../Atoms";
 import { DoorOpenFill } from "react-bootstrap-icons";
 import { toast } from "react-hot-toast";
 import { useEffect, useRef } from "react";
@@ -13,21 +13,10 @@ import AvatarComponent from "../Components/AvatarComponent";
 
 export default function Header() {
   const [user, setUser] = useAtom(userAtom);
-  const setHeaderHeight = useSetAtom(headerHeightAtom);
   const headerRef = useRef<HTMLHeadElement>(null);
 
   useEffect(() => {
     setUser(getUserObject());
-
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
-    }
-
-    window.addEventListener("resize", () => {
-      if (headerRef.current) {
-        setHeaderHeight(headerRef.current.offsetHeight);
-      }
-    });
   }, []);
 
   function logout() {

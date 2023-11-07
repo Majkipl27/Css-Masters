@@ -5,6 +5,7 @@
   background: var(--main-grad);
   align-items: center;
   justify-content: space-around;
+  flex: 1;
 }
 
 .textSection {
@@ -41,4 +42,8 @@
   border-color: var(--add-blue);
   color: var(--add-blue);
   box-shadow: 0 .125rem 0 0 rgba(36, 175, 193, 0.4);
+  border-radius: .5rem;
+  width: 50%;
+  position: relative;
+  left: 25%;
 }

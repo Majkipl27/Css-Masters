@@ -11,6 +11,7 @@
     text-decoration: none;
     cursor: pointer;
     box-sizing: border-box;
+    transition: all 200ms linear;
 }
 
 .button {
@@ -33,4 +34,8 @@
     .button, .alt {
         font-size: 1.25rem;
     }
+}
+
+.button:active, .alt:active {
+    transform: scale(0.95);
 }

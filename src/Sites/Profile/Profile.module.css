@@ -2,6 +2,7 @@
   width: 100%;
   height: calc(100% - 86px);
   background-color: var(--bg-lght);
+  flex: 1;
 }
 
 .avatarSection {

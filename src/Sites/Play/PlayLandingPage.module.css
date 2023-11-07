@@ -5,6 +5,7 @@
   background-color: var(--bg-lght);
   box-sizing: border-box;
   position: relative;
+  flex: 1;
 }
 
 .playlists {
