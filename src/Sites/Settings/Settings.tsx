@@ -2,7 +2,7 @@ import classes from "./Settings.module.css";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { useAtomValue } from "jotai";
-import { headerHeightAtom, userAtom } from "../../Atoms";
+import { userAtom } from "../../Atoms";
 import { useEffect, useState, useRef } from "react";
 import AvatarComponent from "../../Components/AvatarComponent";
 import { useNavigate } from "react-router-dom";
