@@ -14,36 +14,45 @@ export default function Login() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const login = async () => {
+  const login = () => {
     if (!usernameRef.current?.value || !passwordRef.current?.value) {
       toast.error("Please provide login data!");
       return;
     }
 
-    await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/login`, 
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          username: usernameRef.current?.value,
-          password: passwordRef.current?.value
-        })
-      }
-    ).then(response => {
-      if (response.status === 200) {
-        toast.success("Logged in!");
-        navigate("/");
-      } else if (response.status >= 400) {
-        toast.error("Wrong username or password!");
-      }
-    }).catch((error) => {
-      toast.error("Something went wrong!");
-      console.log(error);
-    });
-  }
+    const toastId = toast.loading("Logging in...");
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        username: usernameRef.current?.value,
+        password: passwordRef.current?.value,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Logged in!", {
+            id: toastId,
+          });
+          navigate("/");
+        } else if (response.status >= 400 && response.status < 500) {
+          toast.error("Wrong username or password!", {
+            id: toastId,
+          });
+        } else {
+          toast.error("Something went wrong!", {
+            id: toastId,
+          });
+        }
+      })
+      .catch((error) => {
+        toast.error("Something went wrong!");
+        console.log(error);
+      });
+  };
 
   return (
     <motion.div

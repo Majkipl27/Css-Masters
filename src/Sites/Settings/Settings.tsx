@@ -259,21 +259,14 @@ export default function Settings() {
       correctFormdata.append(key, newObject[key]);
     }
 
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/`, {
-      method: "PATCH",
-      body: correctFormdata,
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.ok)
-          toast.success(
-            "Settings saved! (avatar change in header may not apprear instantly)"
-          );
+    return fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/`,
+      {
+        method: "PATCH",
+        body: correctFormdata,
+        credentials: "include",
       })
-      .catch((error) => {
-        toast.error("Failed to save settings!");
-        console.log("error", error);
-      });
+    
   }
 
   return (
@@ -288,7 +281,13 @@ export default function Settings() {
       {userData ? (
         <motion.form
           className={classes.flex}
-          onSubmit={submitHandler}
+          onSubmit={(e) => {
+            toast.promise(submitHandler(e), {
+              loading: "Saving...",
+              success: <p>Settings saved!</p>,
+              error: <p>Could not save.</p>,
+            });
+          }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.5 } }}

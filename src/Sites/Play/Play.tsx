@@ -16,6 +16,7 @@ import Button from "../../Components/Button";
 import getUserObject from "../../lib/getUser";
 import "split-pane-react/esm/themes/default.css";
 import SplitPane, { Pane } from "split-pane-react";
+import Loader from "../../Components/Loader";
 
 interface Challenge {
   id: number;
@@ -25,12 +26,8 @@ interface Challenge {
 
 export default function Play() {
   const { playlistId = 0, challengeId = 0 } = useParams();
-  const [htmlCode, setHtmlCode] = useState(
-    "<!--\n HTML goes here (remove this comment or it will count to your score)\n-->\n\n\n\n\n\n\n\n\n"
-  );
-  const [cssCode, setCssCode] = useState(
-    "/*\n CSS goes here (remove this comment or it will count to your score)\n*/\n\n\n\n\n\n\n\n\n"
-  );
+  const [htmlCode, setHtmlCode] = useState<string>();
+  const [cssCode, setCssCode] = useState<string>();
   const [isVertical, setIsVertical] = useState<boolean>(false);
   const [isDirectionChangeWorking, setIsDirectionChangeWorking] =
     useState<boolean>(false);
@@ -41,6 +38,7 @@ export default function Play() {
   const [challange, setChallange] = useState<Challenge>();
   const [sizes, setSizes] = useState(["50%", "50%"]);
   const [bestScore, setBestScore] = useState<number>();
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const iframeRef = useRef<any>(null);
   const navigate = useNavigate();
@@ -112,6 +110,7 @@ export default function Play() {
   };
 
   const getBestScores = async () => {
+    setIsFetching(true);
     const res = await fetch(
       `${
         import.meta.env.VITE_REACT_APP_API_URL
@@ -129,6 +128,7 @@ export default function Play() {
   };
 
   const getUserBestScore = async () => {
+    setIsFetching(true);
     const res = await fetch(
       `${
         import.meta.env.VITE_REACT_APP_API_URL
@@ -147,10 +147,11 @@ export default function Play() {
       setCssCode(splittedData[0]);
       setHtmlCode(splittedData[1]);
       setBestScore(data[0].score);
-    } 
+    }
   };
 
   const getChallangeData = async () => {
+    setIsFetching(true);
     const res = await fetch(
       `${
         import.meta.env.VITE_REACT_APP_API_URL
@@ -177,7 +178,12 @@ export default function Play() {
     getChallangeData();
   }, []);
 
+  useEffect(() => {
+    if (isFetching && challange && bestScores && htmlCode) setIsFetching(false);
+  }, [challange, bestScores, isFetching, htmlCode]);
+
   const submitHandler = async () => {
+    const toastId = toast.loading("Logging in...");
     const res = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/play/submit`,
       {
@@ -189,16 +195,20 @@ export default function Play() {
         body: JSON.stringify({
           playlistId,
           challengeId,
-          code: `${cssCode.trim()}</style>${htmlCode.trim()}`,
+          code: `${cssCode?.trim() || ""}</style>${htmlCode?.trim() || ""}`,
         }),
       }
     );
     const data = await res.json();
     if (data.error) {
-      toast.error(data.error);
+      toast.error(data.error, {
+        id: toastId,
+      });
     } else {
       setDataAfterSubmission(data);
-      toast.success("Score submitted!");
+      toast.success("Score submitted!", {
+        id: toastId,
+      });
       getBestScores();
     }
   };
@@ -236,6 +246,12 @@ export default function Play() {
     </motion.div>
   );
 
+  const fetchingLoader = (
+    <div className={classes.fetchingLoader}>
+      <Loader />
+    </div>
+  );
+
   return (
     <motion.div
       className={classes.main}
@@ -243,9 +259,12 @@ export default function Play() {
       animate={{ opacity: 1, transition: { duration: 0.5 } }}
       exit={{ opacity: 1, transition: { duration: 0.5 } }}
     >
+      {isFetching && fetchingLoader}
       {isModalOpen && modal}
       <div className={classes.editors}>
-        <p className={classes.smallText}>Drag these editors to your preferences</p>
+        <p className={classes.smallText}>
+          Drag these editors to your preferences
+        </p>
         <SplitPane
           split="horizontal"
           sizes={sizes}
@@ -261,7 +280,10 @@ export default function Play() {
             </div>
             <CodeMirror
               className={classes.editor}
-              value={htmlCode}
+              value={
+                htmlCode ||
+                "<!--\n HTML goes here (remove this comment or it will count to your score)\n-->\n\n\n\n\n\n\n\n\n"
+              }
               theme={myTheme}
               extensions={[
                 EditorView.lineWrapping,
@@ -283,7 +305,10 @@ export default function Play() {
             </div>
             <CodeMirror
               className={classes.editor}
-              value={cssCode}
+              value={
+                cssCode ||
+                "/*\n CSS goes here (remove this comment or it will count to your score)\n*/\n\n\n\n\n\n\n\n\n"
+              }
               theme={myTheme}
               extensions={[EditorView.lineWrapping, css()]}
               onChange={(e) => {
@@ -318,7 +343,9 @@ export default function Play() {
                 className={classes.imageSliderImg}
               />
               <iframe
-                srcDoc={`<style>body, html{margin:0;width:400px;height:300px;background:#FFF;overflow:hidden;}${cssCode.trim()}</style>${htmlCode.trim()}`}
+                srcDoc={`<style>body, html{margin:0;width:400px;height:300px;background:#FFF;overflow:hidden;}${
+                  cssCode?.trim() || ""
+                }</style>${htmlCode?.trim() || ""}`}
                 ref={iframeRef}
                 slot="second"
                 title="output"
@@ -403,8 +430,10 @@ export default function Play() {
                   was correct!
                 </p>
               </>
+            ) : bestScore ? (
+              <p>Your best score: {bestScore}</p>
             ) : (
-              bestScore ? <p>Your best score: {bestScore}</p> : <p>No score yet!</p>
+              <p>No score yet!</p>
             )}
             <p className={classes.helper}>
               You can submit many times, we'll holding your best score :D

@@ -34,27 +34,39 @@ export default function Register() {
       toast.error("Please provide identical passwords!");
       return;
     }
-    
-      fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/register`, 
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            username: usernameRef.current?.value,
-            email: emailRef.current?.value,
-            password: passwordRef.current?.value
-          })
-        }
-      ).then(response => {
+
+    const toastId = toast.loading("Logging in...");
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: usernameRef.current?.value,
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+      }),
+    })
+      .then((response) => {
         if (response.status === 201) {
-          toast.success("Registered! you can now login!");
-          navigate("/login")
-        } else if (response.status === 403) {
-          toast.error("Somebody already have that username or this email was registered before!");
+          toast.success("Registered! you can now login!", {
+            id: toastId,
+          });
+          navigate("/login");
+        } else if (response.status === 403 && response.status < 500) {
+          toast.error(
+            "Somebody already have that username or this email was registered before!",
+            {
+              id: toastId,
+            }
+          );
+        } else {
+          toast.error("Something went wrong!", {
+            id: toastId,
+          });
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         toast.error("Something went wrong!");
         console.log(error);
       });

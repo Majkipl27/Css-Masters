@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import classes from "./PlayLandingPage.module.css";
 import { useState, useEffect } from "react";
 import Playlist from "./Layout/Playlist";
+import Loader from "../../Components/Loader";
 
 interface playlist {
   id: number;
@@ -51,8 +52,10 @@ export default function PlayLandingPage() {
     },
   ]);
   const [isComingSoon, setIsComingSoon] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const fetchPlaylists = async () => {
+    setIsFetching(true);
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/play/playlists`,
       {
@@ -66,6 +69,7 @@ export default function PlayLandingPage() {
     const data = await response.json();
     setPlaylists(data);
     setFilteredPlaylists(data);
+    setIsFetching(false);
   };
 
   useEffect(() => {
@@ -117,28 +121,24 @@ export default function PlayLandingPage() {
       />
       <div className={classes.playlists}>
         {isComingSoon ? (
-          <p className={classes.noData}>
-            Coming Soon!
-          </p>
+          <p className={classes.noData}>Coming Soon!</p>
+        ) : isFetching ? (
+          <Loader />
         ) : filteredPlaylists.length > 0 ? (
           filteredPlaylists.map((playlist) => {
             return (
-              <div
+              <Playlist
                 key={playlist.id}
-                className={classes.uselessWrapperThatIsNeededBecauseOfKey}
-              >
-                <Playlist
-                  id={+playlist.id}
-                  name={playlist.name}
-                  image={playlist.image}
-                  difficulty={playlist.difficulty}
-                  description={playlist.description}
-                  additionalComment={playlist.additionalComment}
-                  publishDate={playlist.updatedAt}
-                  author={playlist.author}
-                  challenges={playlist.Challenges}
-                />
-              </div>
+                id={+playlist.id}
+                name={playlist.name}
+                image={playlist.image}
+                difficulty={playlist.difficulty}
+                description={playlist.description}
+                additionalComment={playlist.additionalComment}
+                publishDate={playlist.updatedAt}
+                author={playlist.author}
+                challenges={playlist.Challenges}
+              />
             );
           })
         ) : (

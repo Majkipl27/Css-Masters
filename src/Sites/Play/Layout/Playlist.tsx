@@ -41,7 +41,6 @@ export default function Playlist({
   return (
     <>
       <h3 className={classes.addComment}>{additionalComment || ""}</h3>
-
       {!isUserChoosing ? (
         <AnimatePresence>
           <motion.div
