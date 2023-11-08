@@ -31,7 +31,9 @@ export default function PlaylistLandingPage() {
 
   const fetchPlaylists = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/play/playlists/${params.playlistId}`,
+      `${import.meta.env.VITE_REACT_APP_API_URL}/play/playlists/${
+        params.playlistId
+      }`,
       {
         method: "GET",
         credentials: "include",
@@ -92,18 +94,19 @@ export default function PlaylistLandingPage() {
           <div className={classes.challenges}>
             {playlist.Challenges.map((challenge) => {
               return (
-                <div className={classes.challenge} key={challenge.id}>
+                <Link
+                  to={`/play/${playlist.id}/${challenge.challengeInPlaylistId}`}
+                  className={classes.challenge}
+                  key={challenge.id}
+                >
                   <img
                     src={challenge.challangeImageUrl}
                     alt={`${challenge.name}'s image`}
                     className={classes.image}
                   />
-                  <Link
-                    to={`/play/${playlist.id}/${challenge.challengeInPlaylistId}`}
-                  >
-                    {challenge.name}
-                  </Link>
-                </div>
+
+                  {challenge.name}
+                </Link>
               );
             })}
           </div>

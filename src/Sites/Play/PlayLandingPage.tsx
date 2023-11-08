@@ -128,7 +128,7 @@ export default function PlayLandingPage() {
           filteredPlaylists.map((playlist) => {
             return (
               <Playlist
-                key={playlist.id}
+                key={Math.random()}
                 id={+playlist.id}
                 name={playlist.name}
                 image={playlist.image}

@@ -110,7 +110,6 @@ export default function Play() {
   };
 
   const getBestScores = async () => {
-    setIsFetching(true);
     const res = await fetch(
       `${
         import.meta.env.VITE_REACT_APP_API_URL
@@ -128,7 +127,6 @@ export default function Play() {
   };
 
   const getUserBestScore = async () => {
-    setIsFetching(true);
     const res = await fetch(
       `${
         import.meta.env.VITE_REACT_APP_API_URL
@@ -142,16 +140,15 @@ export default function Play() {
       }
     );
     const data = await res.json();
-    if (data[0].code) {
+    if (data[0]?.code) {
       let splittedData = data[0].code.split("</style>");
-      setCssCode(splittedData[0]);
-      setHtmlCode(splittedData[1]);
+      setCssCode(splittedData[0] + "\n".repeat(30));
+      setHtmlCode(splittedData[1] + "\n".repeat(30));
       setBestScore(data[0].score);
     }
   };
 
   const getChallangeData = async () => {
-    setIsFetching(true);
     const res = await fetch(
       `${
         import.meta.env.VITE_REACT_APP_API_URL
@@ -173,14 +170,16 @@ export default function Play() {
       navigate("/login");
       return;
     }
-    getUserBestScore();
-    getBestScores();
-    getChallangeData();
-  }, []);
+    async function fetchData() {
+      setIsFetching(true);
+      await getUserBestScore();
+      await getBestScores();
+      await getChallangeData();
+      setIsFetching(false);
+    }
 
-  useEffect(() => {
-    if (isFetching && challange && bestScores && htmlCode) setIsFetching(false);
-  }, [challange, bestScores, isFetching, htmlCode]);
+    fetchData();
+  }, []);
 
   const submitHandler = async () => {
     const toastId = toast.loading("Logging in...");

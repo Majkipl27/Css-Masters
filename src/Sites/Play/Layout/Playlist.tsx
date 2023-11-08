@@ -41,8 +41,8 @@ export default function Playlist({
   return (
     <>
       <h3 className={classes.addComment}>{additionalComment || ""}</h3>
-      {!isUserChoosing ? (
-        <AnimatePresence>
+      <AnimatePresence mode="wait">
+        {!isUserChoosing ? (
           <motion.div
             key={id}
             initial={{ opacity: 0 }}
@@ -50,7 +50,7 @@ export default function Playlist({
               opacity: 1,
               transition: { duration: 0.25 },
             }}
-            exit={{ opacity: 0, transition: { duration: 0.5 } }}
+            exit={{ opacity: 0, transition: { duration: 0.25 } }}
             className={classes.playlist}
           >
             <img
@@ -87,18 +87,16 @@ export default function Playlist({
               </div>
             </div>
           </motion.div>
-        </AnimatePresence>
-      ) : (
-        <AnimatePresence>
+        ) : (
           <motion.div
-            key={id}
+            key={id + 2}
             className={classes.playlistVertical}
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
               transition: { duration: 0.25 },
             }}
-            exit={{ opacity: 0, transition: { duration: 0.5 } }}
+            exit={{ opacity: 0, transition: { duration: 0.25 } }}
           >
             <span>
               <ArrowLeft
@@ -133,8 +131,8 @@ export default function Playlist({
               )}
             </div>
           </motion.div>
-        </AnimatePresence>
-      )}
+        )}
+      </AnimatePresence>
     </>
   );
 }

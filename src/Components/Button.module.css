@@ -11,7 +11,7 @@
     text-decoration: none;
     cursor: pointer;
     box-sizing: border-box;
-    transition: all 200ms linear;
+    transition: all 100ms linear;
 }
 
 .button {
@@ -28,6 +28,7 @@
 
 .button:hover, .alt:hover {
     text-decoration: underline;
+    transform: scale(.95);
 }
 
 @media screen and (max-width: 1200px) {
@@ -37,5 +38,5 @@
 }
 
 .button:active, .alt:active {
-    transform: scale(0.95);
+    transform: scale(0.90);
 }
