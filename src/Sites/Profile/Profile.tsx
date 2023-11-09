@@ -13,6 +13,8 @@ import AvatarComponent from "../../Components/AvatarComponent";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../Atoms";
 import { motion } from "framer-motion";
+import Loader from "../../Components/Loader";
+import toast from "react-hot-toast";
 
 interface userData {
   id: number;
@@ -39,29 +41,41 @@ export default function Profile() {
   const navigate = useNavigate();
   const user = useAtomValue(userAtom);
   const [vievportWidth, setVievportWidth] = useState<number>(0);
+  const [isFetching, setIsFetching] = useState<boolean>(true);
+
+  const fetchingLoader = (
+    <div className={classes.fetchingLoader}>
+      <Loader />
+    </div>
+  );
 
   useEffect(() => {
     setVievportWidth(window.innerWidth);
-    
+    setIsFetching(true);
+
     window.addEventListener("resize", () => {
       setVievportWidth(window.innerWidth);
     });
 
     async function getPublicInfo() {
       try {
-        await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/${+(id || 0)}`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+        await fetch(
+          `${import.meta.env.VITE_REACT_APP_API_URL}/user/${+(id || 0)}`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             if (data.statusCode >= 400) {
-              navigate("/404");
+              navigate("/");
             } else {
               setUserData(data);
+              setIsFetching(false);
             }
           });
       } catch (error) {
@@ -70,10 +84,13 @@ export default function Profile() {
     }
 
     const getBannerUrl = async (): Promise<void> => {
-      fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/banner/${id}`, {
-        credentials: "include",
-        method: "GET",
-      })
+      fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/banner/${id}`,
+        {
+          credentials: "include",
+          method: "GET",
+        }
+      )
         .then((res: Response) => {
           if (!res.ok || res.status === 204) throw new Error();
           return res.blob();
@@ -105,15 +122,14 @@ export default function Profile() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
     >
+      {isFetching && fetchingLoader}
       <div
         className={classes.avatarSection}
-        style={
-          bannerUrl
-            ? {
-                background: `linear-gradient(92deg, rgba(66, 66, 66, 0.60) 0%, rgba(66, 66, 66, 0.60) 100%), url('${bannerUrl}') no-repeat center center`,
-              }
-            : {}
-        }
+        style={{
+          background:
+            bannerUrl &&
+            `linear-gradient(92deg, rgba(66, 66, 66, 0.60) 0%, rgba(66, 66, 66, 0.60) 100%), url('${bannerUrl}') no-repeat center center`,
+        }}
       >
         <AvatarComponent
           userId={+(id || -1)}
@@ -193,7 +209,7 @@ export default function Profile() {
             <div className={classes.badges}>
               {/*
               TODO: Make badges mapping when backend will be ready
-            */}
+              */}
               <div className={classes.badge} />
               <div className={classes.badge} />
               <div className={classes.badge} />

@@ -13,6 +13,7 @@ import Play from "./Sites/Play/Play";
 import { AnimatePresence } from "framer-motion";
 import { isMobile } from "react-device-detect";
 import Logo from "./Graphics/Logo.svg";
+import ErrorElement from "./Layout/ErrorElement";
 
 export default function App() {
   const element = useRoutes([
@@ -52,7 +53,7 @@ export default function App() {
         },
       ],
     },
-    { path: "*", element: <h1>404</h1> },
+    { path: "*", element: <ErrorElement /> },
   ]);
 
   const location = useLocation();

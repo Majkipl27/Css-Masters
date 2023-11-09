@@ -140,11 +140,11 @@ export default function Play() {
       }
     );
     const data = await res.json();
-    if (data[0]?.code) {
-      let splittedData = data[0].code.split("</style>");
+    if (data?.code) {
+      let splittedData = data.code.split("</style>");
       setCssCode(splittedData[0] + "\n".repeat(30));
       setHtmlCode(splittedData[1] + "\n".repeat(30));
-      setBestScore(data[0].score);
+      setBestScore(data.score);
     }
   };
 
@@ -182,7 +182,7 @@ export default function Play() {
   }, []);
 
   const submitHandler = async () => {
-    const toastId = toast.loading("Logging in...");
+    const toastId = toast.loading("Submitting...");
     const res = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}/play/submit`,
       {
@@ -372,7 +372,6 @@ export default function Play() {
                 onClick={() => {
                   navigator.clipboard.writeText(color.replace(" ", ""));
                   toast.success("Copied to clipboard!");
-                  console.log(color);
                 }}
               >
                 <div style={{ backgroundColor: color }} />

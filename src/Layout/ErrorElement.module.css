@@ -1,0 +1,11 @@
+.main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    gap: 1rem;
+    font-size: 3rem;
+}
