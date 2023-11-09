@@ -14,6 +14,7 @@ import { AnimatePresence } from "framer-motion";
 import { isMobile } from "react-device-detect";
 import Logo from "./Graphics/Logo.svg";
 import ErrorElement from "./Layout/ErrorElement";
+import Leaderboards from "./Sites/Leaderboards/Leaderboards";
 
 export default function App() {
   const element = useRoutes([
@@ -41,7 +42,7 @@ export default function App() {
         },
         {
           path: "/leaderboards",
-          element: <h1>leaderboards</h1>,
+          element: <Leaderboards />,
         },
         {
           path: "/profile/:id",

@@ -16,21 +16,21 @@ const AvatarComponent = (props: {
       visible={true}
       width={
         props.size === "verySmall"
-          ? "1.5rem"
+          ? "24px"
           : props.size === "small"
-          ? "3rem"
+          ? "48px"
           : props.size === "medium"
-          ? "8rem"
-          : "12rem"
+          ? "128px"
+          : "192px"
       }
       height={
         props.size === "verySmall"
-          ? "1.5rem"
+          ? "24px"
           : props.size === "small"
-          ? "3rem"
+          ? "48px"
           : props.size === "medium"
-          ? "8rem"
-          : "12rem"
+          ? "128px"
+          : "192px"
       }
       ariaLabel="blocks-loading"
       wrapperStyle={{}}

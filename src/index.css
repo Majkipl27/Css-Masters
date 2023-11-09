@@ -5,6 +5,9 @@ body {
   margin: 0;
   font-family: 'Roboto Slab', serif;
   background-color: var(--bg-clr);
+}
+
+#root {
   display: flex;
   flex-direction: column;
 }

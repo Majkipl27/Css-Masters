@@ -1,0 +1,98 @@
+.main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--bg-lght);
+}
+
+.main h1 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--font-alt);
+  font-family: "Quantico", sans-serif;
+  text-align: center;
+  text-shadow: 0px 2px 0px rgba(173, 181, 189, 0.4);
+  margin-top: 1rem;
+  text-transform: uppercase;
+}
+
+.leaderboards {
+  width: 100%;
+  height: 83%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 25%;
+  height: 100%;
+}
+
+.leaderboardsItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.leaderboard > p {
+  font-size: 1.75rem;
+  color: var(--font-alt);
+  font-family: "Quantico", sans-serif;
+  text-align: center;
+  text-shadow: 0px 2px 0px rgba(173, 181, 189, 0.4);
+  text-transform: uppercase;
+}
+
+.leaderboardItem {
+  font-family: "Quantico", sans-serif;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-clr);
+  border: 0.125rem solid #5a5a5a;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  color: var(--font-clr);
+  box-sizing: border-box;
+}
+
+.leaderboardItemPlace {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--font-clr);
+  text-decoration: none;
+  width: 80%;
+}
+
+.leaderboardItemPlace > p:last-of-type {
+    width: 70%;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.line {
+  width: 100%;
+  border-radius: 0.5rem;
+  height: 0.25rem;
+  background: var(--font-alt);
+}
+
+.lineVertical {
+    width: .25rem;
+    height: 80%;
+    border-radius: 0.5rem;
+    background-color: var(--font-alt);
+}

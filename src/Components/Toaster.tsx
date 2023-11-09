@@ -33,7 +33,10 @@ export default function ToasterComponent() {
             fontSize: "1.2rem",
           },
         },
-        
+        loading: {
+          className: "",
+          duration: Infinity,
+        },
       }}
     />
   );

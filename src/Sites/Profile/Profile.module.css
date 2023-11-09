@@ -1,6 +1,6 @@
 .main {
   width: 100%;
-  height: calc(100% - 86px);
+  flex: 1;
   background-color: var(--bg-lght);
   flex: 1;
 }

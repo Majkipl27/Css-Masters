@@ -108,13 +108,6 @@ export default function Profile() {
     userNamingInfo = `| ${userData?.name || ""} ${userData?.lastname || ""}`;
   }
 
-  let userNameForAvatarGenerating = "";
-  if (userData?.name && userData?.lastname) {
-    userNameForAvatarGenerating = `${userData?.name} ${userData?.lastname[0]}`;
-  } else {
-    userNameForAvatarGenerating = userData?.username || "";
-  }
-
   return (
     <motion.div
       className={classes.main}
@@ -134,7 +127,7 @@ export default function Profile() {
         <AvatarComponent
           userId={+(id || -1)}
           className={classes.avatar}
-          userNameForAvatar={userNameForAvatarGenerating}
+          userNameForAvatar={userData?.username || ""}
           size={vievportWidth > 1400 ? "big" : "medium"}
         />
         <h2>

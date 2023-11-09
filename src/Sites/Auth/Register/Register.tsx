@@ -35,7 +35,7 @@ export default function Register() {
       return;
     }
 
-    const toastId = toast.loading("Logging in...");
+    const toastId = toast.loading("Registering...");
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/register`, {
       method: "POST",
       headers: {

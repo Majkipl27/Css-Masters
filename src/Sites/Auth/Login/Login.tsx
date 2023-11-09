@@ -38,12 +38,8 @@ export default function Login() {
             id: toastId,
           });
           navigate("/");
-        } else if (response.status >= 400 && response.status < 500) {
+        } else if (response.status >= 400) {
           toast.error("Wrong username or password!", {
-            id: toastId,
-          });
-        } else {
-          toast.error("Something went wrong!", {
             id: toastId,
           });
         }
