@@ -179,7 +179,11 @@ export default function Play() {
     }
 
     fetchData();
-  }, []);
+
+    return () => {
+      toast.dismiss();
+    };
+  }, [toast]);
 
   const submitHandler = async () => {
     const toastId = toast.loading("Submitting...");
@@ -204,10 +208,23 @@ export default function Play() {
         id: toastId,
       });
     } else {
-      setDataAfterSubmission(data);
-      toast.success("Score submitted!", {
-        id: toastId,
-      });
+      if (data.statusCode === 201) {
+        toast.success("Score submitted!", {
+          id: toastId,
+        });
+        toast.success("Congratulations! You've unlocked badge!", {
+          style: {
+            background: "#76b5c9",
+            color: "var(--bg-clr)",
+          },
+          icon: "👏",
+        });
+      } else if (data.statusCode === 200) {
+        toast.success("Score submitted!", {
+          id: toastId,
+        });
+      }
+      setDataAfterSubmission(data.data);
       getBestScores();
     }
   };

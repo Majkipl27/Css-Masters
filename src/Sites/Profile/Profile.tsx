@@ -14,17 +14,18 @@ import { useAtomValue } from "jotai";
 import { userAtom } from "../../Atoms";
 import { motion } from "framer-motion";
 import Loader from "../../Components/Loader";
-import toast from "react-hot-toast";
+import formatDate from "../../lib/formatDate";
+import tagClasses from "../Play/Layout/Tags.module.css";
+import Badge from "../Badges/Badge";
 
 interface userData {
   id: number;
   joinedAt: Date;
+  lastSeen: Date;
   email: string;
   username: string;
   isVerified: boolean;
   isBanned: boolean;
-  avatar: Blob;
-  banner: Blob;
   instagram?: string;
   website?: string;
   github?: string;
@@ -32,6 +33,19 @@ interface userData {
   description?: string;
   name?: string;
   lastname?: string;
+  userScore: number;
+  userChallangesCompleted: number;
+  favouriteTags: {
+    [key: string]: number;
+  };
+  userBadges: badge[];
+}
+
+interface badge {
+  createdAt: Date;
+  name: string;
+  description: string;
+  imageId: number;
 }
 
 export default function Profile() {
@@ -57,18 +71,15 @@ export default function Profile() {
       setVievportWidth(window.innerWidth);
     });
 
-    async function getPublicInfo() {
+    function getPublicInfo() {
       try {
-        await fetch(
-          `${import.meta.env.VITE_REACT_APP_API_URL}/user/${+(id || 0)}`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
+        fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/${+(id || 0)}`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
           .then((res) => res.json())
           .then((data) => {
             if (data.statusCode >= 400) {
@@ -198,37 +209,57 @@ export default function Profile() {
         <div className={classes.line} />
         <div className={classes.right}>
           <div className={classes.badgesSection}>
-            <p>Badges</p>
+            <Link to="/badges">Badges</Link>
             <div className={classes.badges}>
-              {/*
-              TODO: Make badges mapping when backend will be ready
-              */}
-              <div className={classes.badge} />
-              <div className={classes.badge} />
-              <div className={classes.badge} />
-              <div className={classes.badge} />
+              {userData?.userBadges ? (
+                userData?.userBadges.map((badge) => (
+                  <Badge
+                    key={badge.imageId}
+                    badgeId={badge.imageId}
+                    size="48px"
+                    badgeName={badge.name}
+                    description={badge.description}
+                    gotAt={badge.createdAt}
+                  />
+                ))
+              ) : (
+                <p>This user has no badges yet.</p>
+              )}
             </div>
           </div>
           <div className={classes.statisticsSection}>
             <div className={classes.statistic}>
               <p>Overall Points</p>
-              <p>[Points]</p>
+              <p>{userData?.userScore}</p>
             </div>
             <div className={classes.statistic}>
               <p>Challenges done</p>
-              <p>[Challenges done]</p>
+              <p>{userData?.userChallangesCompleted}</p>
             </div>
           </div>
           <div className={classes.tagsSection}>
             <p>Favourite tags</p>
             <div className={classes.tags}>
-              {/*
-                Make tags mapping when backend will be ready
-              */}
-              <div className={classes.tag}>[Tag]</div>
+              {userData?.favouriteTags ? (
+                Object.keys(userData?.favouriteTags).map((tag) => (
+                  <span
+                    key={tag}
+                    className={`${tagClasses[tag.toLowerCase()]} ${
+                      tagClasses.difficulty
+                    }`}
+                  >
+                    {tag.replace("_", " ")}
+                  </span>
+                ))
+              ) : (
+                <p>This user has no favourite tags yet.</p>
+              )}
             </div>
           </div>
-          <p className={classes.lastActive}>Last Active: [DD.MM.YYYY]</p>
+          <p className={classes.lastActive}>
+            Last Active:{" "}
+            {userData?.lastSeen && formatDate(userData.lastSeen, true)}
+          </p>
         </div>
       </div>
     </motion.div>

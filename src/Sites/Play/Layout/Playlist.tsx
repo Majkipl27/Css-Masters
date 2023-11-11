@@ -1,4 +1,5 @@
 import classes from "./Playlist.module.css";
+import tagClasses from "./Tags.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ArrowLeft, PlayFill } from "react-bootstrap-icons";
@@ -13,7 +14,7 @@ interface playlist {
   difficulty: string;
   description: string;
   additionalComment?: string;
-  publishDate: string;
+  publishDate: Date;
   author: string;
   challenges: challenge[];
 }
@@ -67,8 +68,8 @@ export default function Playlist({
                 <span>{author}</span>
                 <div className={classes.line} />
                 <span
-                  className={`${classes[difficulty.toLowerCase()]} ${
-                    classes.difficulty
+                  className={`${tagClasses[difficulty.toLowerCase()]} ${
+                    tagClasses.difficulty
                   }`}
                 >
                   {difficulty.replace("_", " ")}

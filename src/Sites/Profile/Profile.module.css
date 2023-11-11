@@ -31,7 +31,7 @@
 .avatar {
   width: 12rem;
   height: 12rem;
-  border: .25rem solid var(--font-alt);
+  border: 0.25rem solid var(--font-alt);
   border-radius: 50%;
   background-color: var(--font-alt);
 }
@@ -134,10 +134,14 @@
   background-color: var(--font-alt);
 }
 
-.badgesSection > p {
+.badgesSection > p,
+.badgesSection > a {
   margin-bottom: 1rem;
+  display: inline-block;
   font-size: 1.5rem;
   text-transform: uppercase;
+  color: var(--font-alt);
+  text-decoration: none;
 }
 
 .statisticsSection {
@@ -168,7 +172,7 @@
   align-items: center;
   gap: 0.5rem;
   overflow-x: auto;
-  padding: .5rem 0;
+  padding: 0.5rem 0;
 }
 
 .tag {
@@ -180,7 +184,7 @@
   text-transform: uppercase;
   margin-right: 1rem;
   width: fit-content;
-  box-shadow: 0px 2px 0px #ADB5BD5a;
+  box-shadow: 0px 2px 0px #adb5bd5a;
 }
 
 .lastActive {
@@ -196,7 +200,7 @@
   .avatarSection h2 {
     font-size: 1rem !important;
   }
-  
+
   .mainRow {
     height: 60%;
   }

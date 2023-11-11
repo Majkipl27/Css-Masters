@@ -16,16 +16,13 @@ export default function ToasterComponent() {
           color: "#fff",
         },
         success: {
-          className: "",
           duration: 3000,
           style: {
             background: "#abe39f",
             color: "var(--bg-clr)",
-            fontSize: "1.2rem",
           },
         },
         error: {
-          className: "",
           duration: 3000,
           style: {
             background: "#e39f9f",
@@ -34,7 +31,6 @@ export default function ToasterComponent() {
           },
         },
         loading: {
-          className: "",
           duration: Infinity,
         },
       }}

@@ -1,0 +1,39 @@
+.main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--bg-lght);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.main > h1 {
+    font-size: 3rem;
+    font-weight: 500;
+    color: var(--font-clr);
+    text-shadow: 0 .25rem 0 rgba(173, 181, 189, 0.4);
+    font-family: "Quantico", sans-serif;
+}
+
+.badge {
+    width: 40%;
+    padding: 1rem;
+    border-radius: .5rem;
+    background-color: var(--bg-clr);
+    display: flex;
+    gap: 2rem;
+}
+
+.badgeHero {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    color: var(--font-alt);
+}
+
+.badgeHero > p:first-of-type {
+    font-size: 2rem;
+    color: var(--font-clr);
+    text-shadow: 0 .125rem 0 rgba(173, 181, 189, 0.4);
+}

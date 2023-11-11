@@ -8,13 +8,16 @@ import Profile from "./Sites/Profile/Profile";
 import Settings from "./Sites/Settings/Settings";
 import PlayLandingPage from "./Sites/Play/PlayLandingPage";
 import PlaylistLandingPage from "./Sites/Play/Sites/PlaylistLandingPage";
-import { cloneElement } from "react";
+import { cloneElement, useEffect } from "react";
 import Play from "./Sites/Play/Play";
 import { AnimatePresence } from "framer-motion";
 import { isMobile } from "react-device-detect";
 import Logo from "./Graphics/Logo.svg";
 import ErrorElement from "./Layout/ErrorElement";
 import Leaderboards from "./Sites/Leaderboards/Leaderboards";
+import { useAtomValue } from "jotai";
+import { userAtom } from "./Atoms";
+import Badges from "./Sites/Badges/Badges";
 
 export default function App() {
   const element = useRoutes([
@@ -27,6 +30,10 @@ export default function App() {
         {
           path: "/",
           element: <LandingPage />,
+        },
+        {
+          path: "/badges",
+          element: <Badges />,
         },
         {
           path: "/play",
@@ -60,6 +67,31 @@ export default function App() {
   const location = useLocation();
 
   if (!element) return null;
+
+  const user = useAtomValue(userAtom);
+
+  useEffect(() => {
+    let timerId: any;
+    const setLastActive = async () => {
+      if (user.id) {
+        await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/lastactive`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+      }
+
+      timerId = setInterval(() => {
+        setLastActive();
+      }, 5 * 60 * 1000);
+    };
+
+    setLastActive();
+
+    return () => clearInterval(timerId);
+  }, []);
 
   return isMobile ? (
     <div className="noMobile">

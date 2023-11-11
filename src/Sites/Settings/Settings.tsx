@@ -259,14 +259,33 @@ export default function Settings() {
       correctFormdata.append(key, newObject[key]);
     }
 
-    return fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/`,
-      {
-        method: "PATCH",
-        body: correctFormdata,
-        credentials: "include",
-      })
-    
+    const toastId = toast.loading("Updating settings...");
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/user/settings/`, {
+      method: "PATCH",
+      body: correctFormdata,
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === 200) {
+        toast.success("Settings updated!", {
+          id: toastId,
+        });
+      } else if (res.status === 201) {
+        toast.success("Settings updated!", {
+          id: toastId,
+        });
+        toast.success("Congratulations! You've unlocked badge!", {
+          style: {
+            background: "#76b5c9",
+            color: "var(--bg-clr)",
+          },
+          icon: "👏",
+        });
+      } else {
+        toast.error("Failed to update settings!", {
+          id: toastId,
+        });
+      }
+    });
   }
 
   return (
@@ -282,11 +301,7 @@ export default function Settings() {
         <motion.form
           className={classes.flex}
           onSubmit={(e) => {
-            toast.promise(submitHandler(e), {
-              loading: "Saving...",
-              success: <p>Settings saved!</p>,
-              error: <p>Could not save.</p>,
-            });
+            submitHandler(e);
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
