@@ -13,7 +13,7 @@ interface playlist {
   difficulty: string;
   description: string;
   author: string;
-  updatedAt: string;
+  updatedAt: Date;
   Challenges: challenge[];
 }
 
