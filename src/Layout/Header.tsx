@@ -35,15 +35,6 @@ export default function Header() {
       });
   }
 
-  let userNameForAvatarGenerating = "";
-  if (user.id) {
-    if (user?.name && user?.lastname) {
-      userNameForAvatarGenerating = `${user?.name} ${user?.lastname[0]}`;
-    } else {
-      userNameForAvatarGenerating = user?.username || "";
-    }
-  }
-
   return (
     <>
       <header className={classes.header} ref={headerRef}>
@@ -79,7 +70,7 @@ export default function Header() {
               >
                 <AvatarComponent
                   userId={user.id}
-                  userNameForAvatar={userNameForAvatarGenerating}
+                  userNameForAvatar={user.username}
                   size="verySmall"
                 />
                 <p>{user.username}</p>
